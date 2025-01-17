@@ -13,20 +13,21 @@ enum PermissionAction : string {
     case Allow = "allow";
     case Deny = "deny";
     case Login = "login";
-    case Redirect = "redirect";
 }
 
 $permissions = [
     UserRole::Admin->value => [
         "/admin" => PermissionAction::Allow,
         "/logout.php" => PermissionAction::Allow,
-        "/index.php" => PermissionAction::Redirect,
+        "/deny.php" => PermissionAction::Allow,
+        "/action" => PermissionAction::Allow,
         "*" => PermissionAction::Deny 
     ],
     UserRole::User->value => [
         "/customer" => PermissionAction::Allow,
         "/logout.php" => PermissionAction::Allow,
-        "/index.php" => PermissionAction::Redirect,
+        "/deny.php" => PermissionAction::Allow,
+        "/action" => PermissionAction::Allow,
         "*" => PermissionAction::Deny
     ],
     UserRole::Guest->value => [
@@ -34,6 +35,7 @@ $permissions = [
         "/customer" => PermissionAction::Allow,
         "/admin" => PermissionAction::Login,
         "/index.php" => PermissionAction::Allow,
+        "/action" => PermissionAction::Allow,
         "*" => PermissionAction::Deny
     ]
 ];
@@ -77,6 +79,9 @@ function logout() {
     unset($_SESSION[SESSION_ACCOUNT]);
 }
 
+/**
+* Gets the current active UserRole
+*/
 function getUserRole(): UserRole {
     if (array_key_exists(SESSION_ACCOUNT, $_SESSION) && $account = $_SESSION[SESSION_ACCOUNT]) {
         if ($account->is_admin) return UserRole::Admin;
@@ -84,6 +89,12 @@ function getUserRole(): UserRole {
     } else return UserRole::Guest;
 }
 
+/**
+* Performs a permission action to either:
+*     - Deny access to a page
+*     - Request login to a page
+*     - Allow the access
+*/ 
 function performPermissionAction(PermissionAction $action) {
     switch ($action) {
     case PermissionAction::Deny:
@@ -91,12 +102,36 @@ function performPermissionAction(PermissionAction $action) {
         die();
         break;
     case PermissionAction::Login:
-        echo "login";
+        header("Location: /index.php?redirect=" . $_SERVER['PHP_SELF']);
         die();
         break;
     case PermissionAction::Allow:
-    case PermissionAction::Redirect:
+        // Do nothing for allowed pages
         break;
+    }
+}
+
+/**
+* Redirects a user to its default page
+* Default pages are:
+*     - Admin = /admin
+*     - User = /customer
+*     - Guest = /
+*/
+function redirectToDefaultPage(UserRole $role) {
+    switch ($role) {
+    case UserRole::Admin:
+        header("Location: /admin");
+        die();
+    case UserRole::User:
+        header("Location: /customer");
+        die();
+    case UserRole::Guest:
+        if (defined('INDEX_PAGE')) break;
+        else {
+            header("Location: /");
+            die();
+        }
     }
 }
 
@@ -106,10 +141,15 @@ $userRole = getUserRole();
 $path = $_SERVER['PHP_SELF'];
 $permissionPaths = $permissions[$userRole->value];
 
-foreach ($permissionPaths as $subPath => $action) {
-    if (str_starts_with($path, $subPath) || $subPath == "*") {
-        performPermissionAction($action);
-        break;
+// Special case if we are on the index / login page
+if (defined('INDEX_PAGE')) {
+    redirectToDefaultPage($userRole);
+} else {
+    foreach ($permissionPaths as $subPath => $action) {
+        if (str_starts_with($path, $subPath) || $subPath == "*") {
+            performPermissionAction($action);
+            break;
+        }
     }
 }
 

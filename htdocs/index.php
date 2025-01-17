@@ -1,25 +1,7 @@
 <?php
-session_start();
-
 // Include the login functions
+define('INDEX_PAGE', 1);
 include('include/login.php');
-
-// Handle the login form submission
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    if (login($username, $password)) {
-        echo "Login successful! Welcome, $username.";
-    } else {
-        echo "Invalid credentials. Please try again.";
-    }
-}
-
-// Handle logout button click
-if (isset($_GET['logout'])) {
-    logout();
-}
 ?>
 
 <!DOCTYPE html>
@@ -32,19 +14,21 @@ if (isset($_GET['logout'])) {
 <body>
     <?php if (!isset($_SESSION[SESSION_ACCOUNT])): ?>
         <!-- Login Form -->
-        <form method="POST" action="index.php">
+        <form method="POST" action="action/login.php">
             <label for="username">Username:</label>
             <input type="text" name="username" id="username" required><br><br>
             
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" required><br><br>
+
+            <input type="hidden" name="redirect" value="<?php echo $_GET['redirect'] ?? '';?>">
             
             <button type="submit">Login</button>
         </form>
     <?php else: ?>
         <!-- Welcome Message & Logout Button -->
-        <p>Welcome, <?php echo $_SESSION['username']; ?>!</p>
-        <a href="index.php?logout=true">Logout</a>
+        <p>Welcome, <?php echo $_SESSION[SESSION_ACCOUNT]->name; ?>!</p>
+        <a href="action/logout.php">Logout</a>
     <?php endif; ?>
 </body>
 </html>
