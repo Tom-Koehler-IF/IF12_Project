@@ -1,5 +1,3 @@
-<?php include("../include/login.php"); ?>
-
 <html>
 <head>
     <title><?php echo $title; ?></title>
