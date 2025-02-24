@@ -121,7 +121,7 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE spLoginUser(
+CREATE PROCEDURE spCanLoginUser(
     IN AccountName CHAR(20),
     IN AccountPassword CHAR(64),
     OUT loginResult TINYINT(1)
