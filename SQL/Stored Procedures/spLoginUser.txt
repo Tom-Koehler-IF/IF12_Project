@@ -1,0 +1,19 @@
+DELIMITER //
+
+CREATE PROCEDURE spLoginUser(
+    IN AccountName CHAR(20),
+    IN AccountPassword CHAR(64),
+    OUT loginResult TINYINT(1)
+)
+BEGIN
+   IF EXISTS (
+        SELECT 1
+        FROM tbllogin
+        WHERE szAccountName = AccountName AND szLoginPassword = AccountPassword
+    ) THEN
+        SET LoginResult = 1;
+    ELSE
+        SET LoginResult = 0;
+    END IF;
+END//
+DELIMITER ;

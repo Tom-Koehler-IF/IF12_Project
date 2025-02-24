@@ -1,0 +1,37 @@
+DELIMITER //
+
+CREATE PROCEDURE spNewCustomer(
+   IN FirstName CHAR(50),
+   IN LastName CHAR(50),
+   IN Street CHAR(50),
+   IN StreetNumber CHAR(10),
+   IN PostalCode CHAR(5),
+   IN szCity CHAR(50),
+   IN AccountName CHAR(50),
+   IN LoginPassword CHAR(64),
+   OUT Error TINYINT(1)
+)
+BEGIN 
+    DECLARE LoginID INT;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN 
+        SET Error = 1;
+        ROLLBACK;
+      
+    END;
+
+    START TRANSACTION;
+
+    -- new user as not Admin
+    CALL spCreateNewUser(AccountName, LoginPassword, 0);
+
+    SET LoginID = (SELECT l.nID FROM tbllogin l WHERE l.szAccountName = AccountName);
+
+    INSERT INTO tblcustomer (szFirstName, szLastName, szStreet, szStreetNumber, szPostalCode, szCity, nLoginID) 
+    VALUES (FirstName, LastName, Street, StreetNumber, PostalCode, szCity, LoginID);
+
+    COMMIT;
+    SET Error = 0; -- Set Error to 0 to indicate success
+END //
+
+DELIMITER ;
