@@ -1,0 +1,29 @@
+
+DELIMITER //
+
+CREATE FUNCTION fkInvoice(orderID INT) RETURNS TEXT
+BEGIN
+    DECLARE resultSet TEXT;
+
+    SELECT GROUP_CONCAT(
+               CONCAT(
+                   l.szAccountName, ' ', 
+                   c.szFirstName, ' ', 
+                   c.szLastName, ' ', 
+                   o.tTime, ' ', 
+                   p.szName, ' Price:', 
+                   p.dPrice, '  Quantity:', 
+                   op.nQuantity,' Total Price:', 
+                   op.nQuantity * p.dPrice
+               ) SEPARATOR '; ') INTO resultSet
+    FROM tblorder_product op 
+    JOIN tblorder o ON op.nOrderID = o.nID
+    JOIN tblproduct p ON op.nProductID = p.nID
+    JOIN tblcustomer c ON o.nCustomerID = c.nID
+    JOIN tbllogin l ON c.nLoginID = l.nID
+    WHERE o.nID = orderID;
+
+    RETURN resultSet;
+END //
+
+DELIMITER ;
