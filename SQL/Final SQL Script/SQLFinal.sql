@@ -77,7 +77,7 @@ CREATE TABLE tblOrder_Product (
     nOrderID int,
     nProductID int,
     nQuantity int,
-    dOldPrice decimal (5.2),
+    dOldPrice decimal (5,2),
     FOREIGN KEY (nOrderID) REFERENCES tblOrder(nID),
     FOREIGN KEY (nProductID) REFERENCES tblProduct(nID)
 );
