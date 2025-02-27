@@ -77,6 +77,7 @@ CREATE TABLE tblOrder_Product (
     nOrderID int,
     nProductID int,
     nQuantity int,
+    dOldPrice decimal,
     FOREIGN KEY (nOrderID) REFERENCES tblOrder(nID),
     FOREIGN KEY (nProductID) REFERENCES tblProduct(nID)
 );
@@ -177,8 +178,58 @@ END //
 
 DELIMITER ;
 
+-- Functions
+
+DELIMITER //
+
+CREATE FUNCTION fkInvoice(orderID INT) RETURNS TEXT
+BEGIN
+    DECLARE resultSet TEXT;
+
+    SELECT GROUP_CONCAT(
+               CONCAT(
+                   l.szAccountName, '#', 
+                   c.szFirstName, '#', 
+                   c.szLastName, '#', 
+                   o.tTime, '#', 
+                   p.szName, '#Price:', 
+                   p.dPrice, '  #Quantity:', 
+                   op.nQuantity,'#Total Price:', 
+                   op.nQuantity * p.dPrice
+               ) SEPARATOR '; ') INTO resultSet
+    FROM tblorder_product op 
+    JOIN tblorder o ON op.nOrderID = o.nID
+    JOIN tblproduct p ON op.nProductID = p.nID
+    JOIN tblcustomer c ON o.nCustomerID = c.nID
+    JOIN tbllogin l ON c.nLoginID = l.nID
+    WHERE o.nID = orderID;
+
+    RETURN resultSet;
+END //
+
+DELIMITER ;
+
+
+-- Triggers
+
+DELIMITER //
+
+CREATE TRIGGER before_insert_tblorder_product
+BEFORE INSERT ON tblorder_product
+FOR EACH ROW
+BEGIN
+    DECLARE productPrice DECIMAL(5,2);
+
+    SELECT dPrice INTO productPrice FROM tblproduct WHERE nID = NEW.nProductID;
+
+    SET NEW.dOldPrice = productPrice;
+END //
+
+DELIMITER ;
+
 
 -- Product Categories
+
 INSERT INTO tblProduct_Category (nID, szName, szImage) VALUES
 (1, 'Burgers and Sandwiches', 'Path'),
 (2, 'Sides and Snacks', 'Path'),
@@ -413,3 +464,4 @@ INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (8, 25, 3)
 INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (9, 19, 2);
 INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (10, 4, 4);
 INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (1, 9, 3); 
+INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (1, 18, 4); 
