@@ -49,12 +49,6 @@ CREATE TABLE tblOrder (
    FOREIGN Key (nCustomerID) REFERENCES tblCustomer(nID) 
 );
 
-CREATE TABLE tblInvoice (
-   nID int AUTO_INCREMENT PRIMARY KEY,
-   nOrderID int, 
-   tTime datetime,
-   FOREIGN Key (nOrderID) REFERENCES tblOrder(nID) 
-);
 
 CREATE TABLE tblProduct_Category (
    nID int PRIMARY KEY,
@@ -78,7 +72,7 @@ CREATE TABLE tblOrder_Product (
     nOrderID int,
     nProductID int,
     nQuantity int,
-    dOrderPrice decimal,
+    dOldPrice decimal,
     FOREIGN KEY (nOrderID) REFERENCES tblOrder(nID),
     FOREIGN KEY (nProductID) REFERENCES tblProduct(nID)
 );
