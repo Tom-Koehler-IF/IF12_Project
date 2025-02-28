@@ -45,7 +45,7 @@ CREATE TABLE tblCustomer (
 CREATE TABLE tblOrder (
    nID int AUTO_INCREMENT PRIMARY KEY,
    nCustomerID int, 
-   tTime datetime,
+   dtTime datetime,
    FOREIGN Key (nCustomerID) REFERENCES tblCustomer(nID) 
 );
 

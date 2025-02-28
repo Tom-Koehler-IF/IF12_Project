@@ -45,7 +45,7 @@ CREATE TABLE tblCustomer (
 CREATE TABLE tblOrder (
    nID int AUTO_INCREMENT PRIMARY KEY,
    nCustomerID int, 
-   tTime datetime,
+   dtTime datetime,
    FOREIGN Key (nCustomerID) REFERENCES tblCustomer(nID) 
 );
 
@@ -103,6 +103,20 @@ CREATE TABLE tblMenu_Product (
 );
 
 -- Procedures 
+
+DELIMITER //
+
+-- spNewOrder
+
+CREATE PROCEDURE spNewOrder (IN nCustomerID INT, OUT nOrderID INT)
+BEGIN
+    INSERT INTO tblOrder (nCustomerID, dtTime) VALUES (nCustomerID, NOW());
+    SET nOrderID = LAST_INSERT_ID();
+END //
+
+DELIMITER ;
+
+-- spCreateNewUser
 
 DELIMITER //
 
