@@ -149,6 +149,8 @@ BEGIN
 END//
 DELIMITER ;
 
+
+
 DELIMITER //
 
 CREATE PROCEDURE spNewCustomer(
@@ -173,7 +175,7 @@ BEGIN
 
     START TRANSACTION;
 
-    -- new user as not Admin
+
     CALL spCreateNewUser(AccountName, LoginPassword, 0);
 
     SET LoginKey = (SELECT l.nKey FROM tbllogin l WHERE l.szAccountName = AccountName);
@@ -182,9 +184,18 @@ BEGIN
     VALUES (FirstName, LastName, Street, StreetNumber, PostalCode, szCity, LoginKey);
 
     COMMIT;
-    SET Error = 0; -- Set Error to 0 to indicate success
+    SET Error = 0; 
 END //
 
+DELIMITER ;
+
+DELIMITER $$
+CREATE  PROCEDURE spNewOrderProduct(IN nOrderID INT, IN nProductID INT, IN nQuantity INT)
+BEGIN 
+
+insert into tblorder_product(nOrderKey, nProductKey, nQuantity) VALUES (nOrderID, nProductID,nQuantity );
+
+END$$
 DELIMITER ;
 
 -- Functions
