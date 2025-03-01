@@ -6,7 +6,7 @@ FOR EACH ROW
 BEGIN
     DECLARE productPrice DECIMAL(5,2);
 
-    SELECT dPrice INTO productPrice FROM tblproduct WHERE nID = NEW.nProductID;
+    SELECT dPrice INTO productPrice FROM tblproduct WHERE nKey = NEW.nProductKey;
 
     SET NEW.dOldPrice = productPrice;
 END //

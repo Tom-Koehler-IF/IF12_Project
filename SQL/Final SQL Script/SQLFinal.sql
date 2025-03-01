@@ -5,7 +5,7 @@ create DATABASE project;
 use project;
 
 create table tblLogin (
-nID int AUTO_INCREMENT PRIMARY KEY,
+nKey int AUTO_INCREMENT PRIMARY KEY,
 szAccountName CHAR (50),
 szLoginPassword CHAR (64),
 bIsAdmin tinyint(1)    
@@ -15,91 +15,86 @@ alter table tbllogin
 add CONSTRAINT unique_szAccountName UNIQUE (szAccountName);
 
 CREATE TABLE tblContestImage (
-    nID int AUTO_INCREMENT PRIMARY KEY,
-    nLoginID int,
+    nKey int AUTO_INCREMENT PRIMARY KEY,
+    nLoginKey int,
     szImagePath CHAR(200),
     bCanBeRated tinyint(1),
     bIsAdmin tinyint(1),
-    FOREIGN KEY (nLoginID) REFERENCES tbllogin(nID)
+    FOREIGN KEY (nLoginKey) REFERENCES tbllogin(nKey)
     );
     
 CREATE TABLE tblContestRatings (
-    nLoginID int,
-    nContestImageID int,
-    FOREIGN KEY (nLoginID) REFERENCES tbllogin(nID),
-    FOREIGN KEY (nContestImageID) REFERENCES tblContestImage(nID)
+    nLoginKey int,
+    nContestImageKey int,
+    FOREIGN KEY (nLoginKey) REFERENCES tbllogin(nKey),
+    FOREIGN KEY (nContestImageKey) REFERENCES tblContestImage(nKey)
 );
 
 CREATE TABLE tblCustomer (
-   nID int AUTO_INCREMENT PRIMARY KEY,
-   nLoginID int, 
+   nKey int AUTO_INCREMENT PRIMARY KEY,
+   nLoginKey int, 
    szFirstName CHAR (50),
    szLastName CHAR (50),
    szStreet CHAR (50), 
    szStreetNumber CHAR(10),
    szPostalCode CHAR(5),
    szCity CHAR(50),
-   FOREIGN Key (nLoginID) REFERENCES tblLogin(nID) 
+   FOREIGN Key (nLoginKey) REFERENCES tblLogin(nKey) 
 );
 
 CREATE TABLE tblOrder (
-   nID int AUTO_INCREMENT PRIMARY KEY,
-   nCustomerID int, 
+   nKey int AUTO_INCREMENT PRIMARY KEY,
+   nCustomerKey int, 
    dtTime datetime,
-   FOREIGN Key (nCustomerID) REFERENCES tblCustomer(nID) 
+   FOREIGN Key (nCustomerKey) REFERENCES tblCustomer(nKey) 
 );
 
-CREATE TABLE tblInvoice (
-   nID int AUTO_INCREMENT PRIMARY KEY,
-   nOrderID int, 
-   FOREIGN Key (nOrderID) REFERENCES tblOrder(nID) 
-);
 
 CREATE TABLE tblProduct_Category (
-   nID int PRIMARY KEY,
+   nKey int PRIMARY KEY,
    szName CHAR(50),
    szImage CHAR(200)
 );
 
 CREATE TABLE tblProduct (
-   nID int AUTO_INCREMENT PRIMARY KEY,
-   nProduct_CategoryID int, 
+   nKey int AUTO_INCREMENT PRIMARY KEY,
+   nProduct_CategoryKey int, 
    szName CHAR(50),
    nCalories int,
    dPrice decimal (5,2),
    bIsMenu tinyint(1),
    szDescription CHAR(200),
    szImagePfad CHAR(200),
-   FOREIGN KEY (nProduct_CategoryID) REFERENCES tblProduct_Category(nID)    
+   FOREIGN KEY (nProduct_CategoryKey) REFERENCES tblProduct_Category(nKey)    
 );
 
 CREATE TABLE tblOrder_Product (
-    nOrderID int,
-    nProductID int,
+    nOrderKey int,
+    nProductKey int,
     nQuantity int,
     dOldPrice decimal (5,2),
-    FOREIGN KEY (nOrderID) REFERENCES tblOrder(nID),
-    FOREIGN KEY (nProductID) REFERENCES tblProduct(nID)
+    FOREIGN KEY (nOrderKey) REFERENCES tblOrder(nKey),
+    FOREIGN KEY (nProductKey) REFERENCES tblProduct(nKey)
 );
 
 CREATE TABLE tblIngredient (
-    nID int AUTO_INCREMENT PRIMARY KEY,
+    nKey int AUTO_INCREMENT PRIMARY KEY,
     szName CHAR(50)
 );
 
 
 CREATE TABLE tblProduct_Ingredient (
-    nProductID int,
-    nIngredientID int,
-    FOREIGN KEY (nProductID) REFERENCES tblProduct(nID),
-    FOREIGN KEY (nIngredientID) REFERENCES tblIngredient(nID)
+    nProductKey int,
+    nIngredientKey int,
+    FOREIGN KEY (nProductKey) REFERENCES tblProduct(nKey),
+    FOREIGN KEY (nIngredientKey) REFERENCES tblIngredient(nKey)
 );
 
 CREATE TABLE tblMenu_Product (
-    nMenuID int,
-    nProductID int,
-    FOREIGN KEY (nMenuID) REFERENCES tblProduct(nID),
-    FOREIGN KEY (nProductID) REFERENCES tblProduct(nID)
+    nMenuKey int,
+    nProductKey int,
+    FOREIGN KEY (nMenuKey) REFERENCES tblProduct(nKey),
+    FOREIGN KEY (nProductKey) REFERENCES tblProduct(nKey)
 );
 
 -- Procedures 
@@ -108,10 +103,10 @@ DELIMITER //
 
 -- spNewOrder
 
-CREATE PROCEDURE spNewOrder (IN nCustomerID INT, OUT nOrderID INT)
+CREATE PROCEDURE spNewOrder (IN nCustomerKey INT, OUT nOrderKey INT)
 BEGIN
-    INSERT INTO tblOrder (nCustomerID, dtTime) VALUES (nCustomerID, NOW());
-    SET nOrderID = LAST_INSERT_ID();
+    INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (nCustomerKey, NOW());
+    SET nOrderKey = LAST_INSERT_ID();
 END //
 
 DELIMITER ;
@@ -168,7 +163,7 @@ CREATE PROCEDURE spNewCustomer(
    OUT Error TINYINT(1)
 )
 BEGIN 
-    DECLARE LoginID INT;
+    DECLARE LoginKey INT;
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN 
         SET Error = 1;
@@ -181,10 +176,10 @@ BEGIN
     -- new user as not Admin
     CALL spCreateNewUser(AccountName, LoginPassword, 0);
 
-    SET LoginID = (SELECT l.nID FROM tbllogin l WHERE l.szAccountName = AccountName);
+    SET LoginKey = (SELECT l.nKey FROM tbllogin l WHERE l.szAccountName = AccountName);
 
-    INSERT INTO tblcustomer (szFirstName, szLastName, szStreet, szStreetNumber, szPostalCode, szCity, nLoginID) 
-    VALUES (FirstName, LastName, Street, StreetNumber, PostalCode, szCity, LoginID);
+    INSERT INTO tblcustomer (szFirstName, szLastName, szStreet, szStreetNumber, szPostalCode, szCity, nLoginKey) 
+    VALUES (FirstName, LastName, Street, StreetNumber, PostalCode, szCity, LoginKey);
 
     COMMIT;
     SET Error = 0; -- Set Error to 0 to indicate success
@@ -196,7 +191,7 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE FUNCTION fkInvoice(orderID INT) RETURNS TEXT
+CREATE FUNCTION fkInvoice(orderKey INT) RETURNS TEXT
 BEGIN
     DECLARE resultSet TEXT;
 
@@ -205,18 +200,18 @@ BEGIN
                    l.szAccountName, '#', 
                    c.szFirstName, '#', 
                    c.szLastName, '#', 
-                   o.tTime, '#', 
+                   o.dtTime, '#', 
                    p.szName, '#Price:', 
                    p.dPrice, '  #Quantity:', 
                    op.nQuantity,'#Total Price:', 
                    op.nQuantity * p.dPrice
                ) SEPARATOR '; ') INTO resultSet
     FROM tblorder_product op 
-    JOIN tblorder o ON op.nOrderID = o.nID
-    JOIN tblproduct p ON op.nProductID = p.nID
-    JOIN tblcustomer c ON o.nCustomerID = c.nID
-    JOIN tbllogin l ON c.nLoginID = l.nID
-    WHERE o.nID = orderID;
+    JOIN tblorder o ON op.nOrderKey = o.nKey
+    JOIN tblproduct p ON op.nProductKey = p.nKey
+    JOIN tblcustomer c ON o.nCustomerKey = c.nKey
+    JOIN tbllogin l ON c.nLoginKey = l.nKey
+    WHERE o.nKey = orderKey;
 
     RETURN resultSet;
 END //
@@ -234,7 +229,7 @@ FOR EACH ROW
 BEGIN
     DECLARE productPrice DECIMAL(5,2);
 
-    SELECT dPrice INTO productPrice FROM tblproduct WHERE nID = NEW.nProductID;
+    SELECT dPrice INTO productPrice FROM tblproduct WHERE nKey = NEW.nProductKey;
 
     SET NEW.dOldPrice = productPrice;
 END //
@@ -244,20 +239,20 @@ DELIMITER ;
 
 -- Product Categories
 
-INSERT INTO tblProduct_Category (nID, szName, szImage) VALUES
+INSERT INTO tblProduct_Category (nKey, szName, szImage) VALUES
 (1, 'Burgers and Sandwiches', 'Path'),
 (2, 'Sides and Snacks', 'Path'),
 (3, 'Wraps', 'Path'),
 (4, 'Beverages', 'Path'),
 (5, 'Desserts', 'Path');
 
--- Menu Category nID 6 is resserved for Menues
-INSERT INTO tblProduct_Category (nID, szName, szImage) VALUES
+-- Menu Category nKey 6 is resserved for Menues
+INSERT INTO tblProduct_Category (nKey, szName, szImage) VALUES
 (6, 'Menu', 'Path');
 
 
 -- Products
-INSERT INTO tblProduct (szName, nCalories, dPrice, bIsMenu, szDescription, szImagePfad, nProduct_CategoryID) VALUES
+INSERT INTO tblProduct (szName, nCalories, dPrice, bIsMenu, szDescription, szImagePfad, nProduct_CategoryKey) VALUES
 ('Classic Hamburger', 250, 5.00, 0, 'A juicy, grilled beef patty topped with fresh lettuce, tomato, and our signature sauce.', '', 1),
 ('Chicken Sandwich', 300, 6.50, 0, 'Crispy fried chicken breast with a tangy mayo sauce on a toasted bun.', '', 1),
 ('Veggie Burger', 220, 5.50, 0, 'A delicious blend of veggies and grains, topped with crisp lettuce and tomato.', '', 1),
@@ -279,7 +274,7 @@ INSERT INTO tblProduct (szName, nCalories, dPrice, bIsMenu, szDescription, szIma
 ('Apple Pie', 300, 3.00, 0, 'Classic apple pie with a flaky crust and sweet filling.', '', 5);
 
 -- Menus
-INSERT INTO tblProduct (szName, nCalories, dPrice, bIsMenu, szDescription, szImagePfad, nProduct_CategoryID) VALUES
+INSERT INTO tblProduct (szName, nCalories, dPrice, bIsMenu, szDescription, szImagePfad, nProduct_CategoryKey) VALUES
 ('Classic Burger Combo', 950, 10.00, 1, 'Cheeseburger with French fries, a soft drink, and a brownie.', '', 6),
 ('Chicken Delight', 1200, 12.00, 1, 'Chicken Sandwich with onion rings, a milkshake, and an ice cream sundae.', '', 6),
 ('Veggie Feast', 950, 11.00, 1, 'Veggie Burger with mozzarella sticks, fresh juice, and an apple pie.', '', 6),
@@ -319,111 +314,111 @@ INSERT INTO tblIngredient (szName) VALUES ('Apple'), ('Cinnamon'), ('Pastry Doug
 
 -- tblProduct_Ingredient
 -- Classic Hamburger Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5);
 
 -- Chicken Sandwich Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (2, 6), (2, 7), (2, 8), (2, 9), (2, 10);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (2, 6), (2, 7), (2, 8), (2, 9), (2, 10);
 
 -- Veggie Burger Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (3, 11), (3, 12), (3, 13), (3, 14), (3, 15);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (3, 11), (3, 12), (3, 13), (3, 14), (3, 15);
 
 -- French Fries Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (4, 16), (4, 17), (4, 18);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (4, 16), (4, 17), (4, 18);
 
 -- Onion Rings Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (5, 19), (5, 20), (5, 21);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (5, 19), (5, 20), (5, 21);
 
 -- Mozzarella Sticks Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (6, 22), (6, 23), (6, 24);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (6, 22), (6, 23), (6, 24);
 
 -- Grilled Chicken Wrap Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (7, 25), (7, 2), (7, 26), (7, 3), (7, 27);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (7, 25), (7, 2), (7, 26), (7, 3), (7, 27);
 
 -- Beef & Cheese Wrap Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (8, 28), (8, 29), (8, 30);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (8, 28), (8, 29), (8, 30);
 
 -- Veggie Wrap Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (9, 31), (9, 32), (9, 13);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (9, 31), (9, 32), (9, 13);
 
 -- Soft Drink Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (10, 33), (10, 34), (10, 35);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (10, 33), (10, 34), (10, 35);
 
 -- Milkshake Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (11, 36), (11, 37), (11, 38);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (11, 36), (11, 37), (11, 38);
 
 -- Fresh Juice Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (12, 39), (12, 40), (12, 41);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (12, 39), (12, 40), (12, 41);
 
 -- Ice Cream Sundae Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (13, 42), (13, 43), (13, 44);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (13, 42), (13, 43), (13, 44);
 
 -- Brownie Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (14, 45), (14, 46), (14, 47);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (14, 45), (14, 46), (14, 47);
 
 -- Apple Pie Ingredients
-INSERT INTO tblProduct_Ingredient (nProductID, nIngredientID) VALUES (15, 48), (15, 49), (15, 50);
+INSERT INTO tblProduct_Ingredient (nProductKey, nIngredientKey) VALUES (15, 48), (15, 49), (15, 50);
 
 -- tblMenu_Product
--- Classic Burger Combo (nMenuID = 16)
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (16, 1);  -- Cheeseburger
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (16, 4);  -- French Fries
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (16, 10); -- Soft Drink
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (16, 14); -- Brownie
+-- Classic Burger Combo (nMenuKey = 16)
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (16, 1);  -- Cheeseburger
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (16, 4);  -- French Fries
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (16, 10); -- Soft Drink
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (16, 14); -- Brownie
 
--- Chicken Delight (nMenuID = 17)
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (17, 2);  -- Chicken Sandwich
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (17, 5);  -- Onion Rings
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (17, 11); -- Milkshake
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (17, 13); -- Ice Cream Sundae
+-- Chicken Delight (nMenuKey = 17)
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (17, 2);  -- Chicken Sandwich
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (17, 5);  -- Onion Rings
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (17, 11); -- Milkshake
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (17, 13); -- Ice Cream Sundae
 
--- Veggie Feast (nMenuID = 18)
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (18, 3);  -- Veggie Burger
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (18, 6);  -- Mozzarella Sticks
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (18, 12); -- Fresh Juice
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (18, 15); -- Apple Pie
+-- Veggie Feast (nMenuKey = 18)
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (18, 3);  -- Veggie Burger
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (18, 6);  -- Mozzarella Sticks
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (18, 12); -- Fresh Juice
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (18, 15); -- Apple Pie
 
--- Grilled Chicken Wrap Combo (nMenuID = 19)
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (19, 7);  -- Grilled Chicken Wrap
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (19, 4);  -- French Fries
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (19, 10); -- Soft Drink
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (19, 14); -- Brownie
+-- Grilled Chicken Wrap Combo (nMenuKey = 19)
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (19, 7);  -- Grilled Chicken Wrap
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (19, 4);  -- French Fries
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (19, 10); -- Soft Drink
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (19, 14); -- Brownie
 
--- Beef & Cheese Wrap Combo (nMenuID = 20)
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (20, 8);  -- Beef & Cheese Wrap
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (20, 5);  -- Onion Rings
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (20, 11); -- Milkshake
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (20, 13); -- Ice Cream Sundae
+-- Beef & Cheese Wrap Combo (nMenuKey = 20)
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (20, 8);  -- Beef & Cheese Wrap
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (20, 5);  -- Onion Rings
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (20, 11); -- Milkshake
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (20, 13); -- Ice Cream Sundae
 
--- Veggie Wrap Combo (nMenuID = 21)
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (21, 9);  -- Veggie Wrap
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (21, 6);  -- Mozzarella Sticks
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (21, 12); -- Fresh Juice
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (21, 15); -- Apple Pie
+-- Veggie Wrap Combo (nMenuKey = 21)
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (21, 9);  -- Veggie Wrap
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (21, 6);  -- Mozzarella Sticks
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (21, 12); -- Fresh Juice
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (21, 15); -- Apple Pie
 
--- Double Trouble (nMenuID = 22)
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (22, 1);  -- Double Cheeseburger
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (22, 4);  -- French Fries
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (22, 10); -- Soft Drink
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (22, 14); -- Brownie
+-- Double Trouble (nMenuKey = 22)
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (22, 1);  -- Double Cheeseburger
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (22, 4);  -- French Fries
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (22, 10); -- Soft Drink
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (22, 14); -- Brownie
 
--- Crispy Chicken Sandwich Combo (nMenuID = 23)
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (23, 2);  -- Crispy Chicken Sandwich
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (23, 5);  -- Onion Rings
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (23, 11); -- Milkshake
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (23, 13); -- Ice Cream Sundae
+-- Crispy Chicken Sandwich Combo (nMenuKey = 23)
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (23, 2);  -- Crispy Chicken Sandwich
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (23, 5);  -- Onion Rings
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (23, 11); -- Milkshake
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (23, 13); -- Ice Cream Sundae
 
--- BBQ Bacon Burger Combo (nMenuID = 24)
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (24, 1);  -- BBQ Bacon Burger
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (24, 6);  -- Mozzarella Sticks
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (24, 12); -- Fresh Juice
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (24, 15); -- Apple Pie
+-- BBQ Bacon Burger Combo (nMenuKey = 24)
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (24, 1);  -- BBQ Bacon Burger
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (24, 6);  -- Mozzarella Sticks
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (24, 12); -- Fresh Juice
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (24, 15); -- Apple Pie
 
--- Ultimate Wrap Combo (nMenuID = 25)
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (25, 7); -- Grilled Chicken Wrap
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (25, 8); -- Beef & Cheese Wrap
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (25, 4); -- French Fries
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (25, 10);-- Soft Drink
-INSERT INTO tblMenu_Product (nMenuID, nProductID) VALUES (25, 13);-- Ice Cream Sundae
+-- Ultimate Wrap Combo (nMenuKey = 25)
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (25, 7); -- Grilled Chicken Wrap
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (25, 8); -- Beef & Cheese Wrap
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (25, 4); -- French Fries
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (25, 10);-- Soft Drink
+INSERT INTO tblMenu_Product (nMenuKey, nProductKey) VALUES (25, 13);-- Ice Cream Sundae
 
 
 
@@ -447,35 +442,35 @@ CALL spNewCustomer('Diana', 'Ross', 'Pine Lane', '404', '12345', 'Gotham', 'dian
 SELECT @Error;
 
 -- Orders for Customer 1
-INSERT INTO tblOrder (nCustomerID, tTime) VALUES (1, '2025-02-20 10:00:00');
-INSERT INTO tblOrder (nCustomerID, tTime) VALUES (1, '2025-02-20 14:00:00');
+INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (1, '2025-02-20 10:00:00');
+INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (1, '2025-02-20 14:00:00');
 
 -- Orders for Customer 2
-INSERT INTO tblOrder (nCustomerID, tTime) VALUES (2, '2025-02-21 09:30:00');
-INSERT INTO tblOrder (nCustomerID, tTime) VALUES (2, '2025-02-21 12:45:00');
+INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (2, '2025-02-21 09:30:00');
+INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (2, '2025-02-21 12:45:00');
 
 -- Orders for Customer 3
-INSERT INTO tblOrder (nCustomerID, tTime) VALUES (3, '2025-02-22 11:15:00');
-INSERT INTO tblOrder (nCustomerID, tTime) VALUES (3, '2025-02-22 15:20:00');
+INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (3, '2025-02-22 11:15:00');
+INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (3, '2025-02-22 15:20:00');
 
 -- Orders for Customer 4
-INSERT INTO tblOrder (nCustomerID, tTime) VALUES (4, '2025-02-23 08:50:00');
-INSERT INTO tblOrder (nCustomerID, tTime) VALUES (4, '2025-02-23 13:35:00');
+INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (4, '2025-02-23 08:50:00');
+INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (4, '2025-02-23 13:35:00');
 
 -- Orders for Customer 5
-INSERT INTO tblOrder (nCustomerID, tTime) VALUES (5, '2025-02-24 10:05:00');
-INSERT INTO tblOrder (nCustomerID, tTime) VALUES (5, '2025-02-24 16:00:00');
+INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (5, '2025-02-24 10:05:00');
+INSERT INTO tblOrder (nCustomerKey, dtTime) VALUES (5, '2025-02-24 16:00:00');
 
 
 -- tblorder_product
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (2, 8, 3);
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (3, 15, 1);
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (4, 10, 4);
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (5, 20, 2);
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (6, 7, 5);
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (7, 12, 1);
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (8, 25, 3);
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (9, 19, 2);
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (10, 4, 4);
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (1, 9, 3); 
-INSERT INTO tblorder_product (nOrderID, nProductID, nQuantity) VALUES (1, 18, 4); 
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (2, 8, 3);
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (3, 15, 1);
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (4, 10, 4);
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (5, 20, 2);
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (6, 7, 5);
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (7, 12, 1);
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (8, 25, 3);
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (9, 19, 2);
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (10, 4, 4);
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (1, 9, 3); 
+INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (1, 18, 4); 

@@ -12,7 +12,7 @@ CREATE PROCEDURE spNewCustomer(
    OUT Error TINYINT(1)
 )
 BEGIN 
-    DECLARE LoginID INT;
+    DECLARE LoginKey INT;
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN 
         SET Error = 1;
@@ -25,10 +25,10 @@ BEGIN
     -- new user as not Admin
     CALL spCreateNewUser(AccountName, LoginPassword, 0);
 
-    SET LoginID = (SELECT l.nID FROM tbllogin l WHERE l.szAccountName = AccountName);
+    SET LoginKey = (SELECT l.nKey FROM tbllogin l WHERE l.szAccountName = AccountName);
 
-    INSERT INTO tblcustomer (szFirstName, szLastName, szStreet, szStreetNumber, szPostalCode, szCity, nLoginID) 
-    VALUES (FirstName, LastName, Street, StreetNumber, PostalCode, szCity, LoginID);
+    INSERT INTO tblcustomer (szFirstName, szLastName, szStreet, szStreetNumber, szPostalCode, szCity, nLoginKey) 
+    VALUES (FirstName, LastName, Street, StreetNumber, PostalCode, szCity, LoginKey);
 
     COMMIT;
     SET Error = 0; -- Set Error to 0 to indicate success

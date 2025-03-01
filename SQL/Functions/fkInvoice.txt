@@ -10,7 +10,7 @@ BEGIN
                    l.szAccountName, ' ', 
                    c.szFirstName, ' ', 
                    c.szLastName, ' ', 
-                   o.tTime, ' ', 
+                   o.dtTime, ' ', 
                    p.szName, ' Price:', 
                    p.dPrice, '  Quantity:', 
                    op.nQuantity,' Total Price:', 
