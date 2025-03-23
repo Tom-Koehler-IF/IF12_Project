@@ -149,6 +149,16 @@ BEGIN
 END//
 DELIMITER ;
 
+DELIMITER //
+
+CREATE PROCEDURE spGetAllProducts()
+BEGIN
+select * from tblproduct_category;
+select * from tblproduct;
+SELECT * from tblingredient;
+  END//
+DELIMITER ;
+
 
 
 DELIMITER //
