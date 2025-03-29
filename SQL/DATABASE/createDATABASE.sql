@@ -19,13 +19,14 @@ CREATE TABLE tblContestImage (
     nLoginKey int,
     szImagePath CHAR(200),
     bCanBeRated tinyint(1),
-    bIsAdmin tinyint(1),
+    dtCreated DATETIME,
     FOREIGN KEY (nLoginKey) REFERENCES tbllogin(nKey)
     );
     
 CREATE TABLE tblContestRatings (
     nLoginKey int,
     nContestImageKey int,
+    nRating int check(nRating between 1 and 5),
     FOREIGN KEY (nLoginKey) REFERENCES tbllogin(nKey),
     FOREIGN KEY (nContestImageKey) REFERENCES tblContestImage(nKey)
 );
@@ -93,7 +94,6 @@ CREATE TABLE tblProduct_Ingredient (
 CREATE TABLE tblMenu_Product (
     nMenuKey int,
     nProductKey int,
-    nQuantity int,
     FOREIGN KEY (nMenuKey) REFERENCES tblProduct(nKey),
     FOREIGN KEY (nProductKey) REFERENCES tblProduct(nKey)
 );
