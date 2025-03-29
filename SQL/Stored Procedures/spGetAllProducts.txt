@@ -2,8 +2,10 @@ DELIMITER //
 
 CREATE PROCEDURE spGetAllProducts()
 BEGIN
-select * from tblproduct_category;
-select * from tblproduct;
-SELECT * from tblingredient;
+select * from tblProduct_Category;
+select * from tblProduct;
+SELECT * from tblIngredient;
+select * from tblProduct_Ingredient;
+select * from tblMenu_Product;
   END//
 DELIMITER ;
