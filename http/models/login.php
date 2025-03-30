@@ -51,18 +51,24 @@ class Customer {
 
 class User extends Customer implements Serializable {
     private $account_name;
+    private $is_admin;
 
-    public function __construct($key, $first_name, $last_name, $street, $home_number, $city, $postal_code, $account_name) {
+    public function __construct($key, $first_name, $last_name, $street, $home_number, $city, $postal_code, $account_name, $is_admin = 0) {
         // Call parent constructor
         parent::__construct($key, $first_name, $last_name, $street, $home_number, $city, $postal_code);
         
         // Set additional property
         $this->account_name = $account_name;
+        $this->is_admin = $is_admin;
     }
 
     // Getter for account name
     public function getAccountName() {
         return $this->account_name;
+    }
+
+    public function getIsAdmin() {
+        return $this->is_admin;
     }
 
         // Serializable interface methods
@@ -76,7 +82,8 @@ class User extends Customer implements Serializable {
             'home_number' => $this->getHomeNumber(),
             'city' => $this->getCity(),
             'postal_code' => $this->getPostalCode(),
-            'account_name' => $this->account_name
+            'account_name' => $this->account_name,
+            'is_admin' => $this->is_admin,
         ]);
     }
 
@@ -93,7 +100,8 @@ class User extends Customer implements Serializable {
             $props['home_number'],
             $props['city'],
             $props['postal_code'],
-            $props['account_name']
+            $props['account_name'],
+            $props['is_admin']
         );
     }
 }

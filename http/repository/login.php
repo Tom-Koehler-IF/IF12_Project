@@ -13,7 +13,7 @@ function login($username, $password) {
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
-        $_SESSION['USER'] = serialize(new User($row['nUserKey'], $row['szFirstName'], $row['szLastName'], $row['szStreet'], $row['szStreetNumber'], $row['szCity'], $row['szPostalCode'], $row['szAccountName']));
+        $_SESSION['USER'] = serialize(new User($row['nUserKey'], $row['szFirstName'], $row['szLastName'], $row['szStreet'], $row['szStreetNumber'], $row['szCity'], $row['szPostalCode'], $row['szAccountName'], $row['bIsAdmin']));
         return null;
     } else {
         return "Invalid username or password";

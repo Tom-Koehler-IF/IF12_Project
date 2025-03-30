@@ -261,7 +261,9 @@ function loadContent(page) {
             </div>
         `,
     };
-    document.getElementById('main-content').innerHTML = content[page];
+
+    if (page == 'Funny_Dinner_Contest' || page == 'Funny_Dinner_Contest_Rating') loadDinnerContest(false);
+    else document.getElementById('main-content').innerHTML = content[page];
 }
 
 function loadCheckout() {
@@ -280,6 +282,40 @@ function loadProductCategory(category) {
         .then(r => r.text())
         .then(t => document.getElementById('main-content').innerHTML = t)
         .catch(alert);    
+}
+
+function loadDinnerContest(winner) {
+    document.getElementById('main-content').innerHTML = 'TODO';
+    let url = '/ajax/contest.php';
+    if (winner) url = url + '?showWinner=1';
+
+    ajax_fetch(url, 'GET')
+        .then(r => r.text())
+        .then(loadInnerContent)
+        .catch(alert);
+}
+
+function loadInnerContent(innerHTML) {
+    const element = document.getElementById('main-content');
+    setInnerHTML(element, innerHTML);
+}
+
+function setInnerHTML(elm, html) {
+  elm.innerHTML = html;
+  
+  Array.from(elm.querySelectorAll("script"))
+    .forEach( oldScriptEl => {
+      const newScriptEl = document.createElement("script");
+      
+      Array.from(oldScriptEl.attributes).forEach( attr => {
+        newScriptEl.setAttribute(attr.name, attr.value) 
+      });
+      
+      const scriptText = document.createTextNode(oldScriptEl.innerHTML);
+      newScriptEl.appendChild(scriptText);
+      
+      oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
+  });
 }
 
 function createOrder() {
