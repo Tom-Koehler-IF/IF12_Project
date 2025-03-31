@@ -1,0 +1,25 @@
+DELIMITER // 
+
+CREATE PROCEDURE spGetContestWinners()
+
+BEGIN
+select *
+from (
+	SELECT 
+    	r.nKey,              
+    	r.szImagePath,
+    	l.szAccountName,
+    	YEAR(r.dtCreated) AS Year,
+    	DATE_FORMAT(r.dtCreated, '%Y-%m') AS Month,
+    	SUM(c.nRating) AS FinalRating,
+    	ROW_NUMBER() OVER (PARTITION BY DATE_FORMAT(r.dtCreated, '%Y-%m') ORDER BY FinalRating desc) AS row_num
+	FROM tblContestRatings c
+	JOIN tblContestImage r ON r.nKey = c.nContestImageKey
+	JOIN tblLogin l ON l.nKey = r.nLoginKey
+    group by r.nKey
+) as test
+where row_num = 1;
+
+END //
+
+DELIMITER ;
