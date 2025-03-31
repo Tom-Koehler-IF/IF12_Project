@@ -29,7 +29,8 @@ CREATE TABLE tblContestRatings (
     nContestImageKey int,
     nRating int check(nRating between 1 and 5),
     FOREIGN KEY (nLoginKey) REFERENCES tbllogin(nKey),
-    FOREIGN KEY (nContestImageKey) REFERENCES tblContestImage(nKey)
+    FOREIGN KEY (nContestImageKey) REFERENCES tblContestImage(nKey),
+    UNIQUE (nLoginKey, nContestImageKey)
 );
 
 CREATE TABLE tblCustomer (
