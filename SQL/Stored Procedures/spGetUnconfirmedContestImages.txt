@@ -1,13 +1,15 @@
-use project;
-
 DELIMITER //
 
-create procedure spGetUnconfirmedContestImages()
-BEGIN//
-select c.nKey,
-	   c.szImagePath,
-       c.AccountName,
-       c.dtCreated
-from tblcontestimage c where c.bCanBeRated = NULL
+CREATE PROCEDURE spGetUnconfirmedContestImages()
+BEGIN
+  SELECT i.nKey,
+    	   i.szImagePath,
+    	   l.szAccountName,
+           i.dtCreated
+FROM tbllogin l
+join tblcontestratings r on l.nKey = r.nLoginKey
+join tblcontestimage i on i.nKey = r.nContestImageKey
+where i.bCanBeRated = null
 END //
+
 DELIMITER ;
