@@ -134,20 +134,23 @@ DELIMITER //
 
 CREATE PROCEDURE spLoginUser(
     IN AccountName CHAR(20),
-    IN AccountPassword CHAR(64),
-    OUT loginResult TINYINT(1)
+    IN AccountPassword CHAR(64)
 )
 BEGIN
-   IF EXISTS (
-        SELECT 1
-        FROM tbllogin
-        WHERE szAccountName = AccountName AND szLoginPassword = AccountPassword
-    ) THEN
-        SET LoginResult = 1;
-    ELSE
-        SET LoginResult = 0;
-    END IF;
-END//
+    SELECT l.nKey as nUserKey,
+           c.szFirstName,
+           c.szLastName,
+           c.szStreet,
+           c.szStreetNumber,
+           c.szCity,
+           c.szPostalCode,
+           l.szAccountName,
+           l.bIsAdmin
+    FROM tbllogin l
+    JOIN tblcustomer c ON c.nLoginKey = l.nKey
+    WHERE l.szAccountName = AccountName AND l.szLoginPassword = AccountPassword;
+END //
+
 DELIMITER ;
 
 DELIMITER //
