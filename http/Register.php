@@ -115,7 +115,7 @@
     </div>
 
     <div style="text-align: center; font-weight: bold;">
-      <span>Zurück zur, <a id="navigate_to_login_form" href="Login.html">Anmeldung</a></span>
+      <span>Zurück zur, <a id="navigate_to_login_form" href="Login.php">Anmeldung</a></span>
     </div>
   </div>
 

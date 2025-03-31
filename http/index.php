@@ -28,7 +28,7 @@ $user = getCurrentUser();
         <title>Fastfood</title>
 
         <!--Bootstrap CSS-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="bootstrap.min.css" rel="stylesheet">
     </head>
 
     <body>
@@ -37,7 +37,7 @@ $user = getCurrentUser();
         <!--Top bar-->
         <nav class="navbar navbar-expand-lg bg-body-secondary">
             <div class="container-fluid">
-                <img style="width: 40px; height: 35px;" src="Images/Fastfood_icon.png" />
+                <img style="width: 40px; height: 35px;" src="images/Fastfood_icon.png" />
         
                 <!--Button 1.0 - Essen bestellen-->
                 <button type="button" onclick="switchClasses('Menüs', 'Funny_Dinner_Contest')" class="btn btn-success" id="orderButton" style="border-radius: 15px; width: 500px; height: 45px; margin-left: 85px;">Essen bestellen</button>
@@ -48,13 +48,12 @@ $user = getCurrentUser();
                 <!--Button 1.2 Shopping Cart-->
                 <button id="Shopping_Cart" onclick="loadCheckout()" style="width: 75px; height: 45px; border-radius: 25px; border-color: transparent; background-color: transparent;">
                     <!--Shopping Cart image-->
-                    <img src="Images\NavBar\ShoppingCart.png" width="70px" height="40px" alt="Shopping Cart" style="display: block; margin: auto;">
+                    <img src="images\ShoppingCart.png" width="70px" height="40px" alt="Shopping Cart" style="display: block; margin: auto;">
                 </button>
         
                 <!--Button 1.3 Account-->
                 <button id="Account_Button" style="width: 45px; height: 45px; border-radius: 50%; border-color: transparent; background-color: transparent;" onclick="redirectToLogin()">
-                    <!--Account Avatar image-->
-                    <img src="Images\NavBar\AccountAvatar.png" width="30px" height="25px" alt="<?php if ($user) echo $user->getAccountName(); else echo "Account Avatar"; ?>" style="display: block; margin: auto;">
+                    <?php if ($user != null) echo $user->getAccountName(); else echo 'Login'; ?>
                 </button>
             </div>
         </nav>
@@ -112,6 +111,9 @@ tirety of the web page shall remain stationary, eschewing a full-page reload. In
             function redirectToLogin() {
                 window.location.href = "Login.php";
             }
+
+            // Initially load the first product category
+            loadProductCategory(<?php echo current($productCategories)->getKey(); ?>);
         </script>
     </body> 
 </html>

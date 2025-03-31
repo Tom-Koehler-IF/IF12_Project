@@ -21,27 +21,27 @@ $user = getCurrentUser();
         <span style="font-size: 20px; font-weight: bold;">Rechnungsadresse</span>
         <div style="margin-bottom: 15px; margin-top: 15px;">
             <span>Vorname</span>
-            <input type="text" class="form-control" maxlength="30" value="<?php if ($user) echo $user->getFirstName(); ?>">
+            <input type="text" class="form-control" maxlength="30" value="<?php if ($user) echo $user->getFirstName(); ?>" <?php if ($user) echo 'disabled'; ?>>
         </div>
         <div style="margin-bottom: 15px;">
             <span>Nachname</span>
-            <input type="text" class="form-control" maxlength="30"value="<?php if ($user) echo $user->getLastName(); ?>">
+            <input type="text" class="form-control" maxlength="30"value="<?php if ($user) echo $user->getLastName(); ?>" <?php if ($user) echo 'disabled'; ?>>
         </div>
         <div style="margin-bottom: 15px;">
             <span>Postleitzahl</span>
-            <input type="text" class="form-control" maxlength="5"value="<?php if ($user) echo $user->getPostalCode(); ?>">
+            <input type="text" class="form-control" maxlength="5"value="<?php if ($user) echo $user->getPostalCode(); ?>" <?php if ($user) echo 'disabled'; ?>>
         </div>
         <div style="margin-bottom: 15px;">
             <span>Ort</span>
-            <input type="text" class="form-control" maxlength="40"value="<?php if ($user) echo $user->getCity(); ?>">
+            <input type="text" class="form-control" maxlength="40"value="<?php if ($user) echo $user->getCity(); ?>" <?php if ($user) echo 'disabled'; ?>>
         </div>
         <div style="margin-bottom: 15px;">
             <span>Straße</span>
-            <input type="text" class="form-control" maxlength="40"value="<?php if ($user) echo $user->getStreet(); ?>">
+            <input type="text" class="form-control" maxlength="40"value="<?php if ($user) echo $user->getStreet(); ?>" <?php if ($user) echo 'disabled'; ?>>
         </div>
         <div style="margin-bottom: 5px;">
             <span>Hausnummer</span>
-            <input type="text" class="form-control" maxlength="3" value="<?php if ($user) echo $user->getHomeNumber(); ?>">
+            <input type="text" class="form-control" maxlength="3" value="<?php if ($user) echo $user->getHomeNumber(); ?>" <?php if ($user) echo 'disabled'; ?>>
         </div>
     </div>
 </div>

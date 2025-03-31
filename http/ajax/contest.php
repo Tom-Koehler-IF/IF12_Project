@@ -9,13 +9,10 @@ require_once __DIR__ . '/../repository/login.php';
 require_once __DIR__ . '/../repository/contest.php';
 
 $user = getCurrentUser();
-if ($user === null) { // TODO require login;
-    echo "Unauthorized";
-    exit;
-}
 
-$showAdminPage = $user->getIsAdmin();
-$showWinner = !empty($_GET['showWinner']);
+$showAdminPage = $user != null && $user->getIsAdmin();
+// Show winner if bool is set or we are not logged in
+$showWinner = !empty($_GET['showWinner']) || $user == null;
 
 // This is the point where we do POST processing (So basically handle)
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -112,7 +109,14 @@ else if ($showAdminPage) {
     <?php if(!$showAdminPage): ?>
         <input class="form-control" type="file" id="formFile" style="margin-right: 15px;" onchange="submitImage(event)"/>
     <?php endif; ?>
-    <button onclick="loadDinnerContest(true)" class="btn btn-success" style="border-radius: 15px; width: 200px; margin-right: 15px;">Go to Winner</button> 
+
+    <?php if(!$showWinner):?>
+        <button onclick="loadDinnerContest(true)" class="btn btn-success" style="border-radius: 15px; width: 200px; margin-right: 15px;">Go to Winner</button> 
+    <?php endif; ?>
+
+    <?php if($user == null):?>
+        <button onclick="redirectToLogin()" class="btn btn-success" style="border-radius: 15px; width: 200px; margin-right: 15px">Login for current Contest</button>
+    <?php endif; ?>
 </div>    
 
 <script>

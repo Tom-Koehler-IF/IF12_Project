@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+require_once __DIR__ . '/repository/login.php';
+
+// If this page is opened we just logout
+if (getCurrentUser() != null) logout();
+?>
+
 <!DOCTYPE html>
 <html lang="de">
 
@@ -9,8 +18,7 @@
   <title>Login</title>
 
   <!--Bootstrap CSS-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="bootstrap.min.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -83,7 +91,7 @@
     </div>
 
     <div style="text-align: center; margin-top: 60px; font-weight: bold;">
-      <span>Noch keinen Account, <a id="navigate_to_register_form" href="Register.html">hier</a> Registrieren</span>
+      <span>Noch keinen Account, <a id="navigate_to_register_form" href="Register.php">hier</a> Registrieren</span>
     </div>
   </div>
 

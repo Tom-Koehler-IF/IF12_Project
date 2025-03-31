@@ -23,10 +23,15 @@ function login($username, $password) {
     $conn->close();
 }
 
+function logout() {
+    // Unset the user to log out
+    unset($_SESSION['USER']);
+}
+
 function signup($username, $password, $first_name, $last_name, $street, $street_number, $city, $postal_code) {
     $conn = createDbConnection();
 
-    $stmt = $conn->prepare("call spNewCustomer(?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("call spNewCustomer(?, ?, ?, ?, ?, ?, ?, ?, @error)");
     $stmt->bind_param('ssssssss', $first_name, $last_name, $street, $street_number, $postal_code, $city, $username, md5($password));
     $stmt->execute();
 }
