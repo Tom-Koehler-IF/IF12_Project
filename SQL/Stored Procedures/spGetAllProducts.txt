@@ -5,5 +5,7 @@ BEGIN
 select * from tblproduct_category;
 select * from tblproduct;
 SELECT * from tblingredient;
+select * from tblproduct_ingredient;
+select * from tblmenu_product;
   END//
 DELIMITER ;
