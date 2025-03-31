@@ -4,19 +4,16 @@ create DATABASE project;
 
 use project;
 
-create table tblLogin (
-nKey int AUTO_INCREMENT PRIMARY KEY,
-szAccountName CHAR (50),
-szLoginPassword CHAR (64),
-bIsAdmin tinyint(1)    
+CREATE TABLE tblLogin (
+    nKey INT AUTO_INCREMENT PRIMARY KEY,
+    szAccountName CHAR(50) UNIQUE,
+    szLoginPassword CHAR(64),
+    bIsAdmin TINYINT(1)
 );
-
-alter table tbllogin
-add CONSTRAINT unique_szAccountName UNIQUE (szAccountName);
 
 CREATE TABLE tblContestImage (
     nKey int AUTO_INCREMENT PRIMARY KEY,
-    nLoginKey int,
+    nLoginKey int NOT NULL,
     szImagePath CHAR(200),
     bCanBeRated tinyint(1),
     dtCreated DATETIME,
@@ -25,8 +22,8 @@ CREATE TABLE tblContestImage (
     
 CREATE TABLE tblContestRatings (
     nKey int AUTO_INCREMENT PRIMARY KEY,
-    nLoginKey int,
-    nContestImageKey int,
+    nLoginKey int NOT NULL,
+    nContestImageKey int NOT NULL,
     nRating int check(nRating between 1 and 5),
     FOREIGN KEY (nLoginKey) REFERENCES tbllogin(nKey),
     FOREIGN KEY (nContestImageKey) REFERENCES tblContestImage(nKey),
@@ -35,7 +32,7 @@ CREATE TABLE tblContestRatings (
 
 CREATE TABLE tblCustomer (
    nKey int AUTO_INCREMENT PRIMARY KEY,
-   nLoginKey int, 
+   nLoginKey int NOT NULL,
    szFirstName CHAR (50),
    szLastName CHAR (50),
    szStreet CHAR (50), 
@@ -47,7 +44,7 @@ CREATE TABLE tblCustomer (
 
 CREATE TABLE tblOrder (
    nKey int AUTO_INCREMENT PRIMARY KEY,
-   nCustomerKey int, 
+   nCustomerKey int NOT NULL, 
    dtTime datetime,
    FOREIGN Key (nCustomerKey) REFERENCES tblCustomer(nKey) 
 );
@@ -61,7 +58,7 @@ CREATE TABLE tblProduct_Category (
 
 CREATE TABLE tblProduct (
    nKey int AUTO_INCREMENT PRIMARY KEY,
-   nProduct_CategoryKey int, 
+   nProduct_CategoryKey int NOT NULL,
    szName CHAR(50),
    nCalories int,
    dPrice decimal (5,2),
@@ -72,8 +69,8 @@ CREATE TABLE tblProduct (
 );
 
 CREATE TABLE tblOrder_Product (
-    nOrderKey int,
-    nProductKey int,
+    nOrderKey int NOT NULL,
+    nProductKey int NOT NULL,
     nQuantity int,
     dOldPrice decimal (5,2),
     FOREIGN KEY (nOrderKey) REFERENCES tblOrder(nKey),
@@ -87,15 +84,15 @@ CREATE TABLE tblIngredient (
 
 
 CREATE TABLE tblProduct_Ingredient (
-    nProductKey int,
-    nIngredientKey int,
+    nProductKey int NOT NULL,
+    nIngredientKey int NOT NULL,
     FOREIGN KEY (nProductKey) REFERENCES tblProduct(nKey),
     FOREIGN KEY (nIngredientKey) REFERENCES tblIngredient(nKey)
 );
 
 CREATE TABLE tblMenu_Product (
-    nMenuKey int,
-    nProductKey int,
+    nMenuKey int NOT NULL,
+    nProductKey int NOT NULL,
     FOREIGN KEY (nMenuKey) REFERENCES tblProduct(nKey),
     FOREIGN KEY (nProductKey) REFERENCES tblProduct(nKey)
 );
