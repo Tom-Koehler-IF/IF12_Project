@@ -24,6 +24,7 @@ CREATE TABLE tblContestImage (
     );
     
 CREATE TABLE tblContestRatings (
+    nKey int AUTO_INCREMENT PRIMARY KEY,
     nLoginKey int,
     nContestImageKey int,
     nRating int check(nRating between 1 and 5),
