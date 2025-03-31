@@ -100,21 +100,49 @@ CREATE TABLE tblMenu_Product (
 
 -- Procedures 
 
+-- spUpdateContestImageConfirmation
+
+DELIMITER //
+
+create procedure spUpdateContestImageConfirmation(IN nKeyContestImage int, IN nConfirmed int)
+BEGIN
+
+  UPDATE tblcontestimage
+  SET bCanBeRated = nConfirmed
+  WHERE nKey = nKeyContestImage;
+
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+-- spCreateNewContestImage
+
+CREATE PROCEDURE spCreateNewContestImage(IN nLoginKey INT, IN szPfad CHAR(100))
+BEGIN
+  INSERT INTO tblcontestimage (nLoginKey, szImagePath, dtCreated) 
+  VALUES (nLoginKey, szPfad, NOW());
+END //
+
+DELIMITER ;
+
 -- spGetUnconfirmedContestImages
 
 DELIMITER //
 
-create PROCEDURE spGetUnconfirmedContestImages()
+CREATE PROCEDURE spGetUnconfirmedContestImages()
 BEGIN
   SELECT i.nKey,
          i.szImagePath,
          l.szAccountName,
          i.dtCreated
-  FROM tbllogin l
-  JOIN tblcontestratings r ON l.nKey = r.nLoginKey
-  JOIN tblcontestimage i ON i.nKey = r.nContestImageKey
+  FROM tbllogin l 
+  JOIN tblcontestimage i 
+  ON i.nLoginKey = l.nKey 
   WHERE i.bCanBeRated IS NULL;
 END //
+
 DELIMITER ;
 
 DELIMITER //
