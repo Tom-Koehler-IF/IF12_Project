@@ -100,6 +100,23 @@ CREATE TABLE tblMenu_Product (
 
 -- Procedures 
 
+-- spGetUnconfirmedContestImages
+
+DELIMITER //
+
+create PROCEDURE spGetUnconfirmedContestImages()
+BEGIN
+  SELECT i.nKey,
+         i.szImagePath,
+         l.szAccountName,
+         i.dtCreated
+  FROM tbllogin l
+  JOIN tblcontestratings r ON l.nKey = r.nLoginKey
+  JOIN tblcontestimage i ON i.nKey = r.nContestImageKey
+  WHERE i.bCanBeRated IS NULL;
+END //
+DELIMITER ;
+
 DELIMITER //
 
 -- spNewOrder

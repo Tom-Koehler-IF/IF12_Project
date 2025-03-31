@@ -1,22 +1,14 @@
 DELIMITER //
 
-CREATE PROCEDURE spLoginUser(
-    IN AccountName CHAR(20),
-    IN AccountPassword CHAR(64)
-)
+create PROCEDURE spGetUnconfirmedContestImages()
 BEGIN
-    SELECT l.nKey as nUserKey,
-           c.szFirstName,
-           c.szLastName,
-           c.szStreet,
-           c.szStreetNumber,
-           c.szCity,
-           c.szPostalCode,
-           l.szAccountName,
-           l.bIsAdmin
-    FROM tbllogin l
-    JOIN tblcustomer c ON c.nLoginKey = l.nKey
-    WHERE l.szAccountName = AccountName AND l.szLoginPassword = AccountPassword;
+  SELECT i.nKey,
+         i.szImagePath,
+         l.szAccountName,
+         i.dtCreated
+  FROM tbllogin l
+  JOIN tblcontestratings r ON l.nKey = r.nLoginKey
+  JOIN tblcontestimage i ON i.nKey = r.nContestImageKey
+  WHERE i.bCanBeRated IS NULL;
 END //
-
 DELIMITER ;
