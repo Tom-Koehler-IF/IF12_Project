@@ -157,9 +157,10 @@ BEGIN
 select * from tblproduct_category;
 select * from tblproduct;
 SELECT * from tblingredient;
+select * from tblproduct_ingredient;
+select * from tblmenu_product;
   END//
 DELIMITER ;
-
 
 
 DELIMITER //
@@ -311,11 +312,11 @@ INSERT INTO tblProduct (szName, nCalories, dPrice, bIsMenu, szDescription, szIma
 update tblproduct set dPrice = IF(dPrice % 2 = 0, dPrice+0.49,dPrice+0.99);
 
 -- Administrator
-insert into tblLogin (szAccountName, szLoginPassword, bIsAdmin) Values ('Administrator','Administrator',1);
+insert into tblLogin (szAccountName, szLoginPassword, bIsAdmin) Values ('Administrator','7b7bc2512ee1fedcd76bdc68926d4f7b',1);
 
 -- New Customer
 SET @Error = 0;
-CALL spNewCustomer('John', 'Doe', 'Main Street', '123', '12345', 'CityName', 'john_doe', 'password', @Error);
+CALL spNewCustomer('John', 'Doe', 'Main Street', '123', '12345', 'CityName', 'john_doe', '5f4dcc3b5aa765d61d8327deb882cf99', @Error);
 
 -- Ingredients
 INSERT INTO tblIngredient (szName) VALUES ('Beef Patty'), ('Lettuce'), ('Tomato'), ('Onion'), ('Cheese');

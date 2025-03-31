@@ -1,0 +1,13 @@
+use project;
+
+DELIMITER //
+
+create procedure spGetUnconfirmedContestImages()
+BEGIN//
+select c.nKey,
+	   c.szImagePath,
+       c.AccountName,
+       c.dtCreated
+from tblcontestimage c where c.bCanBeRated = NULL
+END //
+DELIMITER ;
