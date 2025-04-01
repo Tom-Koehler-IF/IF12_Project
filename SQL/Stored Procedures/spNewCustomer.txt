@@ -1,7 +1,5 @@
 DELIMITER //
 
-DROP PROCEDURE spNewCustomer//
-
 CREATE PROCEDURE spNewCustomer(
    IN FirstName CHAR(50),
    IN LastName CHAR(50),
@@ -10,25 +8,26 @@ CREATE PROCEDURE spNewCustomer(
    IN PostalCode CHAR(5),
    IN szCity CHAR(50),
    IN AccountName CHAR(50),
-   IN LoginPassword CHAR(64)
+   IN LoginPassword CHAR(64),
+   OUT Error TINYINT(1),
+   OUT Customer INT
 )
 BEGIN 
-    DECLARE LoginKey INT = null;
+    DECLARE LoginKey INT;
 
-    START TRANSACTION;
+    if AccountName is not null
+    then
+        -- new user as not Admin
+        CALL spCreateNewUser(AccountName, LoginPassword, 0);    
 
-    -- new user as not Admin, if we are passed an account (A customer does not require a login)
-	if AccountName is not null
-	begin
-    	CALL spCreateNewUser(AccountName, LoginPassword, 0);
+        SET LoginKey = (SELECT l.nKey FROM tbllogin l WHERE l.szAccountName = AccountName);
+    end if;
 
-    	SET LoginKey = (SELECT l.nKey FROM tblLogin l WHERE l.szAccountName = AccountName);
-	end
-
-    INSERT INTO tblCustomer (szFirstName, szLastName, szStreet, szStreetNumber, szPostalCode, szCity, nLoginKey) 
+    INSERT INTO tblcustomer (szFirstName, szLastName, szStreet, szStreetNumber, szPostalCode, szCity, nLoginKey) 
     VALUES (FirstName, LastName, Street, StreetNumber, PostalCode, szCity, LoginKey);
 
-    COMMIT;
+    SET Error = 0; -- Set Error to 0 to indicate success
+    SET Customer = LAST_INSERT_ID();
 END //
 
 DELIMITER ;

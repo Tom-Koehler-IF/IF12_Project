@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/db.php';
 
-/**
+/*
 Creates a new order and returns it's id
 */
 function createNewOrder($customer) {
@@ -11,18 +11,17 @@ function createNewOrder($customer) {
     $stmt->bind_param('i', $customer->getKey());
     $stmt->execute();
 
-    $result = $conn->execute_query("select @orderId as result");
-    if ($row = $result->fetch_assoc()) {
-        return $row['result'];
-    } else {
-        return null;
-    }
+    $result = $conn->query("select @orderId as result");
+    $row = $result->fetch_assoc();
+    $orderId = $row['result'];
 
     $stmt->close();
     $conn->close();
+
+    return $orderId;
 }
 
-/**
+/*
 Adds all cartItems to an order
 */
 function addOrderProducts($order, $cartItems) {
@@ -35,7 +34,7 @@ function addOrderProducts($order, $cartItems) {
     $conn->close();
 }
 
-/**
+/*
 Adds a single product to an order
 */
 function addOrderProduct($conn, $order, $cartItem) {

@@ -31,7 +31,7 @@ function updateContestImageConfirmation($imageKey, $confirmed) {
 // Returns the next image that can be rated by the user
 function getUnratedContestImages($userKey) {
     $conn = createDbConnection();    
-    $stmt = $conn->prepare('call spGetUnratedContestImages(?)');
+    $stmt = $conn->prepare('call spGetContestImagesToRate(?)');
     $stmt->bind_param('i', $userKey);
     $stmt->execute();
 
@@ -39,7 +39,7 @@ function getUnratedContestImages($userKey) {
 
     $ret = array();
     while ($row = $result->fetch_assoc()) {
-        $ret[] = new ContestImage($row['nKey'], $row['szImagePath'], $row['szAccountName'], $row['dtCreated']);
+        $ret[] = new ContestImage($row['nKey'], $row['szImagePath'], $row['szAccountName'], $row['dtCreated'], $row['nRating'] ?? 0);
     }
 
     return $ret;
@@ -70,7 +70,7 @@ function submitContestImage($userKey, $image) {
 
 function updateContestImageRating($userKey, $imageKey, $rating) {
     $conn = createDbConnection();
-    $stmt = $conn->prepare('call spUpdateContestImageRating(?, ?, ?');
+    $stmt = $conn->prepare('call spUpdateContestImageRating(?, ?, ?)');
     $stmt->bind_param('iis', $userKey, $imageKey, $rating);
     $stmt->execute();
 }

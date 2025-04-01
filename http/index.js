@@ -53,19 +53,38 @@ function loadInnerContent(innerHTML) {
 
 function setInnerHTML(elm, html) {
   elm.innerHTML = html;
-  
+
+  // Remove previously added <link> tags
+  const head = document.head;
+  Array.from(head.querySelectorAll("link[data-dynamic='true']")).forEach(link => link.remove());
+
+  // Process <script> tags
   Array.from(elm.querySelectorAll("script"))
-    .forEach( oldScriptEl => {
+    .forEach(oldScriptEl => {
       const newScriptEl = document.createElement("script");
-      
-      Array.from(oldScriptEl.attributes).forEach( attr => {
-        newScriptEl.setAttribute(attr.name, attr.value) 
+
+      Array.from(oldScriptEl.attributes).forEach(attr => {
+        newScriptEl.setAttribute(attr.name, attr.value);
       });
-      
+
       const scriptText = document.createTextNode(oldScriptEl.innerHTML);
       newScriptEl.appendChild(scriptText);
-      
+
       oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
+    });
+
+  // Process <link> tags
+  Array.from(elm.querySelectorAll("link")).forEach(linkEl => {
+    const newLinkEl = document.createElement("link");
+
+    Array.from(linkEl.attributes).forEach(attr => {
+      newLinkEl.setAttribute(attr.name, attr.value);
+    });
+
+    newLinkEl.setAttribute("data-dynamic", "true"); // Mark as dynamically added
+    head.appendChild(newLinkEl);
+
+    linkEl.parentNode.removeChild(linkEl); // Remove from the original location
   });
 }
 

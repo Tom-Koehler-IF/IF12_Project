@@ -20,7 +20,7 @@ function createOrder() {
     }
 
     let params = new URLSearchParams({
-       first_name1: inputs[0].value,
+       first_name: inputs[0].value,
        last_name: inputs[1].value,
        postal_code: inputs[2].value,
        city: inputs[3].value,

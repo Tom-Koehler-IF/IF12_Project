@@ -32,7 +32,7 @@ CREATE TABLE tblContestRatings (
 
 CREATE TABLE tblCustomer (
    nKey int AUTO_INCREMENT PRIMARY KEY,
-   nLoginKey int, 
+   nLoginKey int null, 
    szFirstName CHAR (50),
    szLastName CHAR (50),
    szStreet CHAR (50), 

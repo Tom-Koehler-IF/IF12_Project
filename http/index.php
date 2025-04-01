@@ -33,7 +33,7 @@ $user = getCurrentUser();
 
     <body>
         <!--Bootstrap JS-->
-        <script src="bootstrap.bundle.min.js"></script>
+        <script src="bootstrap.min.js"></script>
         <!--Top bar-->
         <nav class="navbar navbar-expand-lg bg-body-secondary">
             <div class="container-fluid">

@@ -27,8 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $customer = getCurrentUser();
 
     if ($customer === null) {
+        echo 'Hi';
+        $customerKey = createCustomer($_POST['first_name'], $_POST['last_name'], $_POST['street'], $_POST['street_number'], $_POST['city'], $_POST['postal_code']);
         $customer = new Customer(
-            -1,
+            $customerKey,
             $_POST['first_name'],
             $_POST['last_name'],
             $_POST['street'],
@@ -37,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST['postal_code'],
         );
     }
+    echo $customer->getKey();
 
     $order = createNewOrder($customer);    
     addOrderProducts($order, $cartItems);
