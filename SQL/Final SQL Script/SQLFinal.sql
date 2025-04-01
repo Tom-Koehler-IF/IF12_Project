@@ -291,6 +291,7 @@ CREATE PROCEDURE spLoginUser(
 )
 BEGIN
     SELECT l.nKey as nUserKey,
+           c.nKey as nCustomerKey,
            c.szFirstName,
            c.szLastName,
            c.szStreet,
@@ -653,4 +654,6 @@ INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (9, 19, 
 INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (10, 4, 4);
 INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (1, 9, 3); 
 INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (1, 18, 4); 
+
+-- tblContestImage
 
