@@ -27,23 +27,24 @@ $user = getCurrentUser();
         <!--Webseite Title-->
         <title>Fastfood</title>
 
-        <!--Bootstrap CSS-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
 
     <body>
+        <!--Bootstrap CSS-->
+        <link href="bootstrap.min.css" rel="stylesheet">
+
         <!--Bootstrap JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <!--Top bar-->
         <nav class="navbar navbar-expand-lg bg-body-secondary">
             <div class="container-fluid">
                 <img style="width: 40px; height: 35px;" src="Images/Fastfood_icon.png" />
         
                 <!--Button 1.0 - Essen bestellen-->
-                <button type="button" onclick="switchClasses('Menüs', 'Funny_Dinner_Contest')" class="btn btn-success" id="orderButton" style="border-radius: 15px; width: 500px; height: 45px; margin-left: 85px;">Essen bestellen</button>
+                <button type="button" onclick="switchClasses('order', 'Funny_Dinner_Contest')" class="btn btn-success" id="orderButton" style="border-radius: 15px; width: 500px; height: 45px; margin-left: 85px;">Essen bestellen</button>
         
                 <!--Button 1.1 Funny Dinner Contest-->
-                <button type="button" onclick="switchClasses('Funny_Dinner_Contest', 'Menüs')" class="btn btn-secondary" id="contestButton" style="border-radius: 15px; width: 500px; height: 45px;">Funny Dinner Contest</button>
+                <button type="button" onclick="switchClasses('Funny_Dinner_Contest', 'order')" class="btn btn-secondary" id="contestButton" style="border-radius: 15px; width: 500px; height: 45px;">Funny Dinner Contest</button>
                 
                 <!--Button 1.2 Shopping Cart-->
                 <button id="Shopping_Cart" onclick="loadCheckout()" style="width: 75px; height: 45px; border-radius: 25px; border-color: transparent; background-color: transparent;">
@@ -65,15 +66,15 @@ $user = getCurrentUser();
                 let orderButton = document.getElementById("orderButton");
                 let contestButton = document.getElementById("contestButton");
         
-                if (activeContent === 'Menüs' || activeContent === 'Pommes' || activeContent === 'Getränke' || activeContent === 'Hamburgers') {
+                if (activeContent === 'order' || activeContent === 'order') {
                     orderButton.className = "btn btn-success";
                     contestButton.className = "btn btn-secondary";
-                } else if (activeContent === 'Funny_Dinner_Contest') {
+                    loadProductCategory(<?php echo current($productCategories)->getKey();?>);
+                } else if (activeContent === 'Funny_Dinner_Contest' || activeContent === 'Funny_Dinner_Contest_Rating') {
                     orderButton.className = "btn btn-secondary";
                     contestButton.className = "btn btn-success";
+                    loadDinnerContest(false);
                 }
-        
-                loadContent(activeContent);
             }
         </script>   
 
@@ -100,7 +101,6 @@ $user = getCurrentUser();
             </div>
         </div>
 
-        <!--Main content switch function-->
         <!--In the event that a tab within the side navigation bar is engaged, the en                    <button class="btn btn-link nav-link" onclick="loadContent('Beliebt')">Beliebt</button>
 tirety of the web page shall remain stationary, eschewing a full-page reload. Instead, only the content area shall undergo a dynamic update, thus preserving the user’s seamless browsing experience.-->
         <?php require_once('./ajax/ajax.js.php') ?>
@@ -113,5 +113,18 @@ tirety of the web page shall remain stationary, eschewing a full-page reload. In
                 window.location.href = "Login.php";
             }
         </script>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Warenkorb</strong>
+                    <small>Jetzt</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Schließen"></button>
+                </div>
+                <div class="toast-body">
+                    Zum Warenkorb hinzugefügt!
+                </div>
+            </div>
+        </div> 
     </body> 
 </html>
