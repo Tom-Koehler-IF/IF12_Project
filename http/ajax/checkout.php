@@ -48,4 +48,4 @@ $user = getCurrentUser();
 <div style="display: flex; justify-content: center; margin-top: 50px;">
     <button class="btn btn-success" style="border-radius: 15px; width: 750px;" onclick="createOrder()">Bestellung aufgeben</button>
 </div>
-
+<script src="ajax/js/checkout.js"></script>

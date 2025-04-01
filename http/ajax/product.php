@@ -45,3 +45,4 @@ $products = loadAllProductsForCategory($categoryKey);
         </div>
     <?php endforeach ?>
 </div>
+<script src="ajax/js/product.js"></script>

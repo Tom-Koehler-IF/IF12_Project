@@ -33,17 +33,17 @@ $user = getCurrentUser();
 
     <body>
         <!--Bootstrap JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="bootstrap.bundle.min.js"></script>
         <!--Top bar-->
         <nav class="navbar navbar-expand-lg bg-body-secondary">
             <div class="container-fluid">
                 <img style="width: 40px; height: 35px;" src="images/Fastfood_icon.png" />
         
                 <!--Button 1.0 - Essen bestellen-->
-                <button type="button" onclick="switchClasses('Menüs', 'Funny_Dinner_Contest')" class="btn btn-success" id="orderButton" style="border-radius: 15px; width: 500px; height: 45px; margin-left: 85px;">Essen bestellen</button>
+                <button type="button" onclick="switchClasses('order', 'Funny_Dinner_Contest')" class="btn btn-success" id="orderButton" style="border-radius: 15px; width: 500px; height: 45px; margin-left: 85px;">Essen bestellen</button>
         
                 <!--Button 1.1 Funny Dinner Contest-->
-                <button type="button" onclick="switchClasses('Funny_Dinner_Contest', 'Menüs')" class="btn btn-secondary" id="contestButton" style="border-radius: 15px; width: 500px; height: 45px;">Funny Dinner Contest</button>
+                <button type="button" onclick="switchClasses('Funny_Dinner_Contest', 'order')" class="btn btn-secondary" id="contestButton" style="border-radius: 15px; width: 500px; height: 45px;">Funny Dinner Contest</button>
                 
                 <!--Button 1.2 Shopping Cart-->
                 <button id="Shopping_Cart" onclick="loadCheckout()" style="width: 75px; height: 45px; border-radius: 25px; border-color: transparent; background-color: transparent;">
@@ -58,24 +58,6 @@ $user = getCurrentUser();
             </div>
         </nav>
         
-        <!--Button class switch function (color change)-->
-        <script>
-            function switchClasses(activeContent, inactiveContent) {
-                let orderButton = document.getElementById("orderButton");
-                let contestButton = document.getElementById("contestButton");
-        
-                if (activeContent === 'Menüs' || activeContent === 'Pommes' || activeContent === 'Getränke' || activeContent === 'Hamburgers') {
-                    orderButton.className = "btn btn-success";
-                    contestButton.className = "btn btn-secondary";
-                } else if (activeContent === 'Funny_Dinner_Contest') {
-                    orderButton.className = "btn btn-secondary";
-                    contestButton.className = "btn btn-success";
-                }
-        
-                loadContent(activeContent);
-            }
-        </script>   
-
         <!--Side bar-->
         <div class="d-flex">
             <div class="bg-light border" style="width: 200px; height: 100vh;">
@@ -99,21 +81,15 @@ $user = getCurrentUser();
             </div>
         </div>
 
+        <!-- Here we can dump some constant values to js so js can use them, but we still want to seperate js and php -->
+        <script>
+            const INITIAL_CATEGORY = <?php echo current($productCategories)->getKey(); ?>;
+        </script>
+
         <!--Main content switch function-->
         <!--In the event that a tab within the side navigation bar is engaged, the en                    <button class="btn btn-link nav-link" onclick="loadContent('Beliebt')">Beliebt</button>
 tirety of the web page shall remain stationary, eschewing a full-page reload. Instead, only the content area shall undergo a dynamic update, thus preserving the user’s seamless browsing experience.-->
         <?php require_once('./ajax/ajax.js.php') ?>
-        <script src="./ContentSwitchLogic.js"></script>
-        <script src="./cart.js"></script>
-
-        <!--Redirect to Login page-->
-        <script>
-            function redirectToLogin() {
-                window.location.href = "Login.php";
-            }
-
-            // Initially load the first product category
-            loadProductCategory(<?php echo current($productCategories)->getKey(); ?>);
-        </script>
+        <script src="./index.js"></script>
     </body> 
 </html>

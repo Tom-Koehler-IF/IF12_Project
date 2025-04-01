@@ -26,7 +26,7 @@ function getShoppingCart() {
 
 // Clears the current shopping cart
 function clearCart() {
-    $_SESION['SHOPPING_CART'] = array();
+    $_SESSION['SHOPPING_CART'] = array();
 }
 
 ?>
