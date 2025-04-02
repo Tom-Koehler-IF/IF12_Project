@@ -30,7 +30,7 @@ CREATE TABLE tblcontestratings (
 );
 
 CREATE TABLE tblcustomer (
-   nKey int AUTO_INCREMENT PRIMARY KEY,f
+   nKey int AUTO_INCREMENT PRIMARY KEY,
    nLoginKey int null, 
    szFirstName CHAR (50),
    szLastName CHAR (50),
@@ -67,7 +67,7 @@ CREATE TABLE tblproduct (
    FOREIGN KEY (nProduct_CategoryKey) REFERENCES tblproduct_category(nKey)    
 );
 
-CREATE TABLE tblorder_Product (
+CREATE TABLE tblorder_product (
     nOrderKey int NOT NULL,
     nProductKey int NOT NULL,
     nQuantity int,
