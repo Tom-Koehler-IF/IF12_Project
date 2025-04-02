@@ -32,7 +32,7 @@ CREATE TABLE tblContestRatings (
 
 CREATE TABLE tblCustomer (
    nKey int AUTO_INCREMENT PRIMARY KEY,
-   nLoginKey int NOT NULL,
+   nLoginKey int null, 
    szFirstName CHAR (50),
    szLastName CHAR (50),
    szStreet CHAR (50), 
@@ -436,15 +436,15 @@ DELIMITER ;
 -- Product Categories
 
 INSERT INTO tblProduct_Category (nKey, szName, szImage) VALUES
-(1, 'Burgers and Sandwiches', 'Path'),
-(2, 'Sides and Snacks', 'Path'),
-(3, 'Wraps', 'Path'),
-(4, 'Beverages', 'Path'),
-(5, 'Desserts', 'Path');
+(1, 'Burgers and Sandwiches', 'images/Category/Burgers and Sandwiches.jpg'),
+(2, 'Sides and Snacks', 'images/Category/Sides and Snacks.jpg'),
+(3, 'Wraps', 'images/Category/Wraps.jpg'),
+(4, 'Beverages', 'images/Category/Beverages.jpg'),
+(5, 'Desserts', 'images/Category/Desserts.jpg');
 
 -- Menu Category nKey 6 is resserved for Menues
 INSERT INTO tblProduct_Category (nKey, szName, szImage) VALUES
-(6, 'Menu', 'Path');
+(6, 'Menu', 'images/Category/Menu.jpg');
 
 
 -- Products
