@@ -18,7 +18,6 @@ where o.nKey=nOrderKey;
 
 -- Order
 SELECT p.szName as Name,
-       p.dPrice as Price,
 	   op.nQuantity as Quantity,
        op.dOldPrice as Price,
        op.nQuantity*op.dOldPrice as Gesamt   
