@@ -463,3 +463,19 @@ INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (9, 19, 
 INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (10, 4, 4);
 INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (1, 9, 3); 
 INSERT INTO tblorder_product (nOrderKey, nProductKey, nQuantity) VALUES (1, 18, 4); 
+
+-- tblContestImage
+
+INSERT into tblcontestimage(nLoginKey, bCanBeRated,dtCreated, szImagePath) VALUES (2,1,NOW(),'images/Contest/Contest2');
+INSERT into tblcontestimage(nLoginKey, bCanBeRated,dtCreated, szImagePath) VALUES (3,1,NOW(),'images/Contest/Contest3');
+INSERT into tblcontestimage(nLoginKey, bCanBeRated,dtCreated, szImagePath) VALUES (4,1,date_sub(NOW(), INTERVAL 1 Month),'images/Contest/Contest1');
+INSERT into tblcontestimage(nLoginKey, bCanBeRated,dtCreated, szImagePath) VALUES (2,1,date_sub(NOW(), INTERVAL 1 Month),'images/Contest/Contest2');
+
+insert into tblcontestratings(nContestImageKey, nLoginKey, nRating) VALUES (1,1,1);
+insert into tblcontestratings(nContestImageKey, nLoginKey, nRating) VALUES (1,2,2);
+
+insert into tblcontestratings(nContestImageKey, nLoginKey, nRating) VALUES (2,3,4);
+insert into tblcontestratings(nContestImageKey, nLoginKey, nRating) VALUES (2,2,3);
+
+insert into tblcontestratings(nContestImageKey, nLoginKey, nRating) VALUES (3,3,5);
+insert into tblcontestratings(nContestImageKey, nLoginKey, nRating) VALUES (3,1,1);
