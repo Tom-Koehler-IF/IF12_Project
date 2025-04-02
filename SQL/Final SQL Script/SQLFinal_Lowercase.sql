@@ -32,7 +32,7 @@ CREATE TABLE tblcontestratings (
 
 CREATE TABLE tblcustomer (
    nKey int AUTO_INCREMENT PRIMARY KEY,
-   nLoginKey int, 
+   nLoginKey int null, 
    szFirstName CHAR (50),
    szLastName CHAR (50),
    szStreet CHAR (50), 
@@ -208,6 +208,38 @@ insert into tblorder_product(nOrderKey, nProductKey, nQuantity) VALUES (nOrderID
 END$$
 DELIMITER ;
 
+-- Functions
+
+DELIMITER //
+
+CREATE FUNCTION fkInvoice(orderKey INT) RETURNS TEXT
+BEGIN
+    DECLARE resultSet TEXT;
+
+    SELECT GROUP_CONCAT(
+               CONCAT(
+                   l.szAccountName, '#', 
+                   c.szFirstName, '#', 
+                   c.szLastName, '#', 
+                   o.dtTime, '#', 
+                   p.szName, '#Price:', 
+                   p.dPrice, '  #Quantity:', 
+                   op.nQuantity,'#Total Price:', 
+                   op.nQuantity * p.dPrice
+               ) SEPARATOR '; ') INTO resultSet
+    FROM tblorder_product op 
+    JOIN tblorder o ON op.nOrderKey = o.nKey
+    JOIN tblproduct p ON op.nProductKey = p.nKey
+    JOIN tblcustomer c ON o.nCustomerKey = c.nKey
+    JOIN tbllogin l ON c.nLoginKey = l.nKey
+    WHERE o.nKey = orderKey;
+
+    RETURN resultSet;
+END //
+
+DELIMITER ;
+
+
 -- Triggers
 
 DELIMITER //
@@ -229,51 +261,51 @@ DELIMITER ;
 -- Product Categories
 
 INSERT INTO tblproduct_category (nKey, szName, szImage) VALUES
-(1, 'Burgers and Sandwiches', 'Path'),
-(2, 'Sides and Snacks', 'Path'),
-(3, 'Wraps', 'Path'),
-(4, 'Beverages', 'Path'),
-(5, 'Desserts', 'Path');
+(1, 'Burgers and Sandwiches', 'images/Category/Burgers and Sandwiches.jpg'),
+(2, 'Sides and Snacks', 'images/Category/Sides and Snacks.jpg'),
+(3, 'Wraps', 'images/Category/Wraps.jpg'),
+(4, 'Beverages', 'images/Category/Beverages.jpg'),
+(5, 'Desserts', 'images/Category/Desserts.jpg');
 
 -- Menu Category nKey 6 is resserved for Menues
 INSERT INTO tblproduct_category (nKey, szName, szImage) VALUES
-(6, 'Menu', 'Path');
+(6, 'Menu', 'images/Category/Menu.jpg');
 
 
 -- Products
 INSERT INTO tblproduct (szName, nCalories, dPrice, bIsMenu, szDescription, szImagePfad, nProduct_CategoryKey) VALUES
-('Classic Hamburger', 250, 5.00, 0, 'A juicy, grilled beef patty topped with fresh lettuce, tomato, and our signature sauce.', '', 1),
-('Chicken Sandwich', 300, 6.50, 0, 'Crispy fried chicken breast with a tangy mayo sauce on a toasted bun.', '', 1),
-('Veggie Burger', 220, 5.50, 0, 'A delicious blend of veggies and grains, topped with crisp lettuce and tomato.', '', 1),
+('Classic Hamburger', 250, 5.00, 0, 'A juicy, grilled beef patty topped with fresh lettuce, tomato, and our signature sauce.', 'images/Products/Classic Hamburger.jpg', 1),
+('Chicken Sandwich', 300, 6.50, 0, 'Crispy fried chicken breast with a tangy mayo sauce on a toasted bun.', 'images/Products/Chicken Sandwich.jpg', 1),
+('Veggie Burger', 220, 5.50, 0, 'A delicious blend of veggies and grains, topped with crisp lettuce and tomato.', 'images/Products/Veggie Burger.jpg', 1),
 
-('French Fries', 350, 2.50, 0, 'Golden and crispy fries seasoned to perfection.', '', 2),
-('Onion Rings', 400, 3.00, 0, 'Crispy battered onion rings served hot.', '', 2),
-('Mozzarella Sticks', 450, 3.50, 0, 'Breaded mozzarella sticks with a side of marinara sauce.', '', 2),
+('French Fries', 350, 2.50, 0, 'Golden and crispy fries seasoned to perfection.', 'images/Products/French Fries.jpg', 2),
+('Onion Rings', 400, 3.00, 0, 'Crispy battered onion rings served hot.', 'images/Products/Onion Rings.jpg', 2),
+('Mozzarella Sticks', 450, 3.50, 0, 'Breaded mozzarella sticks with a side of marinara sauce.', 'images/Products/Mozzarella Sticks.jpg', 2),
 
-('Grilled Chicken Wrap', 320, 4.50, 0, 'Tender grilled chicken, fresh veggies, and a tangy sauce all wrapped up.', '', 3),
-('Beef & Cheese Wrap', 350, 5.00, 0, 'Seasoned beef and melted cheese wrapped up in a warm tortilla.', '', 3),
-('Veggie Wrap', 280, 4.00, 0, 'A healthy mix of fresh veggies and hummus in a soft wrap.', '', 3),
+('Grilled Chicken Wrap', 320, 4.50, 0, 'Tender grilled chicken, fresh veggies, and a tangy sauce all wrapped up.', 'images/Products/Grilled Chicken Wrap.jpg', 3),
+('Beef & Cheese Wrap', 350, 5.00, 0, 'Seasoned beef and melted cheese wrapped up in a warm tortilla.', 'images/Products/Beef & Cheese Wrap.jpg', 3),
+('Veggie Wrap', 280, 4.00, 0, 'A healthy mix of fresh veggies and hummus in a soft wrap.', 'images/Products/Veggie Wrap.jpg', 3),
 
-('Soft Drink', 150, 1.50, 0, 'Refreshing soft drink to quench your thirst.', '', 4),
-('Milkshake', 500, 3.50, 0, 'Creamy milkshake in your choice of flavors.', '', 4),
-('Fresh Juice', 120, 2.50, 0, 'Freshly squeezed juice packed with vitamins.', '', 4),
+('Soft Drink', 150, 1.50, 0, 'Refreshing soft drink to quench your thirst.', 'images/Products/Soft Drinks.jpg', 4),
+('Milkshake', 500, 3.50, 0, 'Creamy milkshake in your choice of flavors.', 'images/Products/Milkshake.jpg', 4),
+('Fresh Juice', 120, 2.50, 0, 'Freshly squeezed juice packed with vitamins.', 'images/Products/Fresh Juice.jpg', 4),
 
-('Ice Cream Sundae', 350, 4.00, 0, 'A delightful sundae with your choice of toppings.', '', 5),
-('Brownie', 400, 2.00, 0, 'Rich, chocolatey brownie with a chewy center.', '', 5),
-('Apple Pie', 300, 3.00, 0, 'Classic apple pie with a flaky crust and sweet filling.', '', 5);
+('Ice Cream Sundae', 350, 4.00, 0, 'A delightful sundae with your choice of toppings.', 'images/Products/Ice Cream Sundae.jpg', 5),
+('Brownie', 400, 2.00, 0, 'Rich, chocolatey brownie with a chewy center.', 'images/Products/Brownie.jpg', 5),
+('Apple Pie', 300, 3.00, 0, 'Classic apple pie with a flaky crust and sweet filling.', 'images/Products/Apple Pies.jpg', 5);
 
 -- Menus
 INSERT INTO tblproduct (szName, nCalories, dPrice, bIsMenu, szDescription, szImagePfad, nProduct_CategoryKey) VALUES
-('Classic Burger Combo', 950, 10.00, 1, 'Cheeseburger with French fries, a soft drink, and a brownie.', '', 6),
-('Chicken Delight', 1200, 12.00, 1, 'Chicken Sandwich with onion rings, a milkshake, and an ice cream sundae.', '', 6),
-('Veggie Feast', 950, 11.00, 1, 'Veggie Burger with mozzarella sticks, fresh juice, and an apple pie.', '', 6),
-('Grilled Chicken Wrap Combo', 870, 9.00, 1, 'Grilled Chicken Wrap with French fries, a soft drink, and a brownie.', '', 6),
-('Beef & Cheese Wrap Combo', 920, 10.50, 1, 'Beef & Cheese Wrap with onion rings, a milkshake, and an ice cream sundae.', '', 6),
-('Veggie Wrap Combo', 800, 9.50, 1, 'Veggie Wrap with mozzarella sticks, fresh juice, and an apple pie.', '', 6),
-('Double Trouble', 1200, 11.00, 1, 'Double Cheeseburger with French fries, a soft drink, and a brownie.', '', 6),
-('Crispy Chicken Sandwich Combo', 1250, 12.50, 1, 'Crispy Chicken Sandwich with onion rings, a milkshake, and an ice cream sundae.', '', 6),
-('BBQ Bacon Burger Combo', 1000, 11.50, 1, 'BBQ Bacon Burger with mozzarella sticks, fresh juice, and an apple pie.', '', 6),
-('Ultimate Wrap Combo', 1200, 13.00, 1, 'Grilled Chicken Wrap and Beef & Cheese Wrap with French fries, a soft drink, and an ice cream sundae.', '', 6);
+('Classic Burger Combo', 950, 10.00, 1, 'Cheeseburger with French fries, a soft drink, and a brownie.', 'images/Menu/Classic Burger Combo.jpg', 6),
+('Chicken Delight', 1200, 12.00, 1, 'Chicken Sandwich with onion rings, a milkshake, and an ice cream sundae.', 'images/Menu/Chicken Delight.jpg', 6),
+('Veggie Feast', 950, 11.00, 1, 'Veggie Burger with mozzarella sticks, fresh juice, and an apple pie.', 'images/Menu/Veggie Feast.jpg', 6),
+('Grilled Chicken Wrap Combo', 870, 9.00, 1, 'Grilled Chicken Wrap with French fries, a soft drink, and a brownie.', 'images/Menu/Grilled Chicken Wrap.jpg', 6),
+('Beef & Cheese Wrap Combo', 920, 10.50, 1, 'Beef & Cheese Wrap with onion rings, a milkshake, and an ice cream sundae.', 'images/Menu/Beef & Cheese Wrap.jpg', 6),
+('Veggie Wrap Combo', 800, 9.50, 1, 'Veggie Wrap with mozzarella sticks, fresh juice, and an apple pie.', 'images/Menu/Veggie Wrap Combo.jpg', 6),
+('Double Trouble', 1200, 11.00, 1, 'Double Cheeseburger with French fries, a soft drink, and a brownie.', 'images/Menu/Double Trouble.jpg', 6),
+('Crispy Chicken Sandwich Combo', 1250, 12.50, 1, 'Crispy Chicken Sandwich with onion rings, a milkshake, and an ice cream sundae.', 'images/Menu/Crispy Chicken Sandwich.jpg', 6),
+('BBQ Bacon Burger Combo', 1000, 11.50, 1, 'BBQ Bacon Burger with mozzarella sticks, fresh juice, and an apple pie.', 'images/Menu/BBQ Bacon Burger.jpg', 6),
+('Ultimate Wrap Combo', 1200, 13.00, 1, 'Grilled Chicken Wrap and Beef & Cheese Wrap with French fries, a soft drink, and an ice cream sundae.', 'images/Menu/Ultimae Wrap Combo.jpg', 6);
 
 update tblproduct set dPrice = IF(dPrice % 2 = 0, dPrice+0.49,dPrice+0.99);
 

@@ -2,9 +2,12 @@
 require_once __DIR__ . '/../models/product.php';
 require_once __DIR__ . '/db.php';
 
-function loadAllProductCategories(&$products = array()) {
+function loadAllProductCategories(&$products = array(), $customer = null) {
+    $customerKey = 0;
+    if ($customer != null) $customerKey = $customer->getCustomerKey();
+    
     $conn = createDbConnection();
-    $sql = "call spGetAllProducts()";
+    $sql = "call spGetAllProducts(" . (int) $customerKey . ")";
     $conn->multi_query($sql);
    
     // Load first 3 resultsets as productCategories, products and ingredients

@@ -16,7 +16,7 @@ function login($username, $password) {
         $stmt->close();
         $conn->close();
         
-        $_SESSION['USER'] = serialize(new User($row['nUserKey'], $row['szFirstName'], $row['szLastName'], $row['szStreet'], $row['szStreetNumber'], $row['szCity'], $row['szPostalCode'], $row['szAccountName'], $row['bIsAdmin']));
+        $_SESSION['USER'] = serialize(new User($row['nCustomerKey'], $row['nUserKey'], $row['szFirstName'], $row['szLastName'], $row['szStreet'], $row['szStreetNumber'], $row['szCity'], $row['szPostalCode'], $row['szAccountName'], $row['bIsAdmin']));
         return null;
     } else {
         $stmt->close();
@@ -47,9 +47,7 @@ function createCustomer($first_name, $last_name, $street, $street_number, $city,
     $stmt->execute();
 
     $result = $conn->query('select @customer as result');
-    print_r($result);
     $row = $result->fetch_assoc();
-    print_r($row);
     $result = $row['result'];
 
     $stmt->close();
@@ -61,6 +59,10 @@ function createCustomer($first_name, $last_name, $street, $street_number, $city,
 function getCurrentUser() {
     if (empty($_SESSION['USER'])) return null;
     else return unserialize($_SESSION['USER']);
+}
+
+function readCustomerFromRow($row) {
+    return new Customer($row['nKey'], $row['szFirstName'], $row['szLastName'], $row['szStreet'], $row['szStreetNumber'], $row['szCity'], $row['szPostalCode']);   
 }
 
 ?>
