@@ -319,13 +319,15 @@ select * from tblmenu_product;
 
 select 
 	p.szName,
-	SUM(op.nQuantity)
+	SUM(op.nQuantity) as nQuantity
     from tblcustomer c
     join tblorder o on c.nKey=o.nCustomerKey
     join tblorder_product op on op.nOrderKey=o.nKey
     join tblproduct p on p.nKey = op.nProductKey
     where c.nKey = nCustomerKey
-    GROUP BY p.szName, op.nProductKey ;
+    GROUP BY p.szName, op.nProductKey 
+    order by nQuantity desc
+    ;
 
 
   END//
