@@ -191,7 +191,7 @@ DELIMITER ;
 
 DELIMITER //
 
-create PROCEDURE spGetUnratedContestImages(IN UserKey int)
+create PROCEDURE spGetContestImagesToRate(IN UserKey int)
 BEGIN 
 
 select c.nKey as nKey,
