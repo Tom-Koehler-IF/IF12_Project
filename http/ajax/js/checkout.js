@@ -1,6 +1,6 @@
 function createOrder() {
-    function resultHandler() {
-        // TODO: redirect correctly
+    function resultHandler(content) {
+      window.location.href = "/order.php?orderNumber=" + content;
     }
     
     let inputs = document.querySelectorAll(".form-control");

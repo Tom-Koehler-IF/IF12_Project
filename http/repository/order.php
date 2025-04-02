@@ -17,6 +17,11 @@ function createNewOrder($customer) {
     $row = $result->fetch_assoc();
     $orderId = $row['result'];
 
+    // Always make sure we have an orders array
+    if (empty($_SESSION['orders'])) $_SESSION['orders'];
+    // If our currentUser is not null store order as our owned order (If customer is logged in this can be done via the customerKey)
+    if (getCurrentUser() === null) $_SESSION['orders'][] = $orderId;
+
     $stmt->close();
     $conn->close();
 
@@ -90,6 +95,18 @@ function getInvoice($orderNumber) {
     $conn->close();
 
     return new Invoice($orderNumber, $orderTime, $customer, $orderProducts, $price);
+}
+
+/*
+Determines if the current user can view an invoice
+*/
+function canViewInvoice($invoice) {
+    // First case is our session orders contain the requested invoice. Then we can view it
+    if (!empty($_SESSION['orders']) && in_array($invoice->getOrderNumber(), $_SESSION['orders'])) return true;
+    // The second case is our customer matches our logged in user
+    if (getCurrentUser() !== null && getCurrentUser()->getCustomerKey() == $invoice->getCustomer()->getCustomerKey()) return true;
+
+    return false;
 }
 
 function readOrderProductFromRow($row) {

@@ -43,6 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     addOrderProducts($order, $cartItems);
 
     clearCart();
+
+    echo $order;
 }
 
 ?>

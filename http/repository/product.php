@@ -46,13 +46,27 @@ function loadAllProductCategories(&$products = array(), $customer = null) {
     }
     $result->free();
 
+    // The last resultset are recommended orders
+    $conn->next_result();
+    $result = $conn->store_result();
+    $recommended = array();
+    while ($row = $result->fetch_assoc()) {
+        $recommended[] = $products[$row['nKey']];
+    }
+    if (count($recommended) > 0) {
+        $categories[-1] = new ProductCategory(-1, "Empfohlen", $recommended);
+    }
+    $result->free();
+
     $conn->close();
    
     return $categories;
 }
 
-function loadAllProductsForCategory($categoryKey) {
-    return loadAllProductCategories()[$categoryKey]->getProducts();
+function loadAllProductsForCategory($categoryKey, $customer) {
+    // I don't really know how to get rid of this as I can only pass a customer like this
+    $products = array();
+    return loadAllProductCategories($products, $customer)[$categoryKey]->getProducts();
 }
 
 function loadProductCategories($result) {

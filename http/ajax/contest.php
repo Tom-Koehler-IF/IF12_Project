@@ -112,7 +112,7 @@ else if ($showAdminPage) {
 <?php endif; ?>
 
 <div style="position: fixed; bottom: 0; right: 0; display: flex; gap: 8px; align-items: center; flex-direction: column; margin-bottom: 15px;">
-    <?php if(!$showAdminPage && $user !== null): ?>
+    <?php if(!$showAdminPage && $user !== null && !$showWinner): ?>
         <input class="form-control" type="file" id="formFile" style="margin-right: 15px;" onchange="submitImage(event)"/>
     <?php endif; ?>
 
@@ -131,30 +131,32 @@ else if ($showAdminPage) {
 <script src="ajax/js/star_rater.js"></script>
 <link href="ajax/css/star_rater.css" rel="stylesheet">
 
-<script src="ajax/js/contest.js"></script>
-
 <!-- Dump php winners as js winners array if necessary -->
 <script>
 <?php if($showWinner): ?>
-    const winners = <?php
+    window.jstack = {};
+    jstack.winners = <?php
         echo '[';
         foreach ($winners as $winner) {
             echo '{ "accountName": "' . $winner->getAccountName() . '", "createdAt": "' . $winner->getCreatedAt()->format(DateTime::ATOM) . '", "imagePath": "' . $winner->getImagePath() . '"},';
         }
         echo ']';
     ?>;
-    let winnerIndex = winners.length - 1;
+    jstack.winnerIndex = jstack.winners.length - 1;
 <?php endif; ?>
 
-<?php if(!$showAdminPage): ?>
-    const ratings = <?php
+<?php if(!$showAdminPage && !$showWinner): ?>
+    window.jstack = {};
+    jstack.ratings = <?php
         echo '[';
         foreach ($imagesToRate as $image) {
             echo '{ "accountName": "' . $image->getAccountName() . '", "imageKey": "' . $image->getKey() . '", "currentRating": ' . $image->getCurrentRating() . ', "imagePath": "' . $image->getImagePath() . '" },';
         }
         echo ']';
     ?>;
-    let ratingIndex = ratings.findIndex(x => x.currentRating === 0) ;
-    if (ratingIndex === -1) ratingIndex = 0;
+    jstack.ratingIndex = jstack.ratings.findIndex(x => x.currentRating === 0) ;
+    if (jstack.ratingIndex === -1) jstack.ratingIndex = 0;
 <?php endif; ?>
 </script>
+
+<script src="ajax/js/contest.js"></script>

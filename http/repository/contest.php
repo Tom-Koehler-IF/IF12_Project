@@ -84,7 +84,7 @@ function getContestWinners() {
     $ret = array();
 
     while ($row = $result->fetch_assoc()) {
-        $ret[] = new ContestImage($row['nKey'], $row['szImagePath'], $row['szAccountName'], $row['dtCreated']);
+        $ret[] = new ContestImage($row['nKey'], $row['szImagePath'], $row['szAccountName'], new DateTime($row['dtCreated']));
     }
     
     return $ret;

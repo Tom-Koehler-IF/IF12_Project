@@ -1,10 +1,11 @@
 <?php
+require_once __DIR__ . '/../repository/login.php';
 require_once __DIR__ . '/../repository/product.php';
 
 session_start();
 
 $categoryKey = htmlspecialchars($_GET['category']);
-$products = loadAllProductsForCategory($categoryKey);
+$products = loadAllProductsForCategory($categoryKey, getCurrentUser());
 ?>
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center;">

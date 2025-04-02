@@ -14,7 +14,8 @@ if (empty($_SESSION['csrf_token'])) {
 require_once('repository/product.php');
 require_once('repository/login.php');
 
-$productCategories = loadAllProductCategories();
+$products = array();
+$productCategories = loadAllProductCategories($products, getCurrentUser());
 $user = getCurrentUser();
 ?>
 

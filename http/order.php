@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once __DIR__ . '/repository/order.php';
 
 if (empty($_GET['orderNumber'])) {
@@ -13,6 +15,13 @@ if (!$invoice) {
     echo 'Order not found';
     exit;
 }
+
+if (!canViewInvoice($invoice)) {
+    http_response_code(400);
+    echo 'You are not allowed to view this invoice';
+    exit;
+}
+canViewInvoice($invoice);
 ?>
 
 <!DOCTYPE html>
@@ -81,8 +90,8 @@ if (!$invoice) {
                                 <tr>
                                     <td><?php echo $orderProduct->getName(); ?></td>
                                     <td><?php echo $orderProduct->getQuantity(); ?></td>
-                                    <td class="text-end"><?php echo number_format($orderProduct->getPrice()); ?> €</td>
-                                    <td class="text-end"><?php echo number_format($orderProduct->getTotalPrice()); ?> €</td>
+                                    <td class="text-end"><?php echo sprintf('%.2f', $orderProduct->getPrice()); ?> €</td>
+                                    <td class="text-end"><?php echo sprintf('%.2f', $orderProduct->getTotalPrice()); ?> €</td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -103,15 +112,15 @@ if (!$invoice) {
                             <tbody>
                                 <tr>
                                     <td><strong>Zwischensumme (Netto):</strong></td>
-                                    <td class="text-end"><?php echo number_format($invoice->getPrice()->getNetto(), 2);?> €</td>
+                                    <td class="text-end"><?php echo sprintf('%.2f', $invoice->getPrice()->getNetto());?> €</td>
                                 </tr>
                                 <tr>
                                     <td><strong>MwSt. (7%):</strong></td>
-                                    <td class="text-end"><?php echo number_format($invoice->getPrice()->getMws());?> €</td>
+                                    <td class="text-end"><?php echo sprintf('%.2f', $invoice->getPrice()->getMws());?> €</td>
                                 </tr>
                                 <tr class="border-top">
                                     <td><strong>Gesamtbetrag (Brutto):</strong></td>
-                                    <td class="text-end"><strong><?php echo number_format($invoice->getPrice()->getBrutto());?> €</strong></td>
+                                    <td class="text-end"><strong><?php echo sprintf('%.2f', $invoice->getPrice()->getBrutto());?> €</strong></td>
                                 </tr>
                             </tbody>
                         </table>

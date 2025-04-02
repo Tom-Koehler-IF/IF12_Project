@@ -42,44 +42,44 @@ function updateImageRating(imageKey, rating) {
 
 
 function rerenderWinner() {
-    const winner = winners[winnerIndex];
+    const winner = jstack.winners[jstack.winnerIndex];
     document.getElementById('winnerName').innerText = winner.accountName;
     document.getElementById('winnerMonth').innerText = new Intl.DateTimeFormat('de-DE', { month: 'long', year: 'numeric' }).format(new Date(winner.createdAt));
     document.getElementById('winnerImage').setAttribute('src', winner.imagePath);
 
-    document.getElementById('winnerPrev').style.display = winnerIndex > 0 ? 'block' : 'none';
-    document.getElementById('winnerNext').style.display = winnerIndex < winners.length - 1 ? 'block' : 'none';
+    document.getElementById('winnerPrev').style.display = jstack.winnerIndex > 0 ? 'block' : 'none';
+    document.getElementById('winnerNext').style.display = jstack.winnerIndex < jstack.winners.length - 1 ? 'block' : 'none';
 }
 
 function previousWinner() {
-    if (winnerIndex > 0) {
-        winnerIndex -= 1;
+    if (jstack.winnerIndex > 0) {
+        jstack.winnerIndex -= 1;
         rerenderWinner();
     }
     else console.error("No previous image");
 }
 
 function nextWinner() {
-    if (winnerIndex < winners.length - 1) {
-        winnerIndex += 1;
+    if (jstack.winnerIndex < jstack.winners.length - 1) {
+        jstack.winnerIndex += 1;
         rerenderWinner();
     }
     else console.error('No next image');
 }
 
 function rerenderRating() {
-    const rating = ratings[ratingIndex];
+    const rating = jstack.ratings[jstack.ratingIndex];
     document.getElementById('raitingName').innerText = rating.accountName;
     document.getElementById('ratingImage').setAttribute('src', rating.imagePath);
 
-    document.getElementById('raitingPrev').style.display = ratingIndex > 0 ? 'block' : 'none';
-    document.getElementById('ratingNext').style.display = ratingIndex < ratings.length - 1 ? 'block' : 'none';
+    document.getElementById('raitingPrev').style.display = jstack.ratingIndex > 0 ? 'block' : 'none';
+    document.getElementById('ratingNext').style.display = jstack.ratingIndex < jstack.ratings.length - 1 ? 'block' : 'none';
     displayStars(document.getElementById('rating'), rating.currentRating);
 }
 
 function previousRating() {
-    if (ratingIndex > 0) {
-        ratingIndex -= 1;
+    if (jstack.ratingIndex > 0) {
+        jstack.ratingIndex -= 1;
         rerenderRating();
     } else {
         console.error("No previous image");
@@ -87,8 +87,8 @@ function previousRating() {
 }
 
 function nextRating() {
-    if (ratingIndex < ratings.length - 1) {
-        ratingIndex += 1;
+    if (jstack.ratingIndex < jstack.ratings.length - 1) {
+        jstack.ratingIndex += 1;
         rerenderRating();
     } else {
         console.error("No next image");
@@ -98,8 +98,8 @@ function nextRating() {
 
 (function() {
     const rater = document.querySelector('#rating');
-    createStarRater(rater, 5, 3, newRating => updateImageRating(ratings[ratingIndex].imageKey, newRating));
+    if (rater) createStarRater(rater, 5, 3, newRating => updateImageRating(jstack.ratings[jstack.ratingIndex].imageKey, newRating));
 
-    if (typeof winner !== 'undefined') rerenderWinner();
-    if (typeof ratings !== 'undefined') rerenderRating();
+    if (typeof jstack.winners !== 'undefined') rerenderWinner();
+    if (typeof jstack.ratings !== 'undefined') rerenderRating();
 })();

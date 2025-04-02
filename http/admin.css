@@ -1,0 +1,48 @@
+/** Extra styles für admin dashboard */
+.border-left-primary {
+    border-left: 0.25rem solid var(--bs-primary) !important;
+}
+
+.border-left-success {
+    border-left: 0.25rem solid var(--bs-success) !important;
+}
+
+.border-left-info {
+    border-left: 0.25rem solid var(--bs-info) !important;
+}
+
+.border-left-warning {
+    border-left: 0.25rem solid var(--bs-warning) !important;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.font-weight-bold {
+    font-weight: 700 !important;
+}
+
+.text-xs {
+    font-size: 0.7rem;
+}
+
+.line {
+    fill: none;
+    stroke-width: 2px;
+}
+.line-orders {
+    stroke: var(--bs-primary);
+}
+.line-revenue {
+    stroke: var(--bs-success);
+}
+.line-avg-order {
+    stroke: var(--bs-info);
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
