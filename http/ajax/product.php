@@ -40,7 +40,7 @@ $products = loadAllProductsForCategory($categoryKey);
             <button class="btn btn-success" style="border-radius: 15px; padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;" 
                 onmouseover="this.style.backgroundColor='#218838'; this.style.transform='scale(1.05)';" 
                 onmouseout="this.style.backgroundColor='#28a745'; this.style.transform='scale(1)';" 
-                onclick="addToCart(<?php echo $product->getKey(); ?>)">
+                onclick="addToCart(<?php echo $product->getKey(); ?>, '<?php echo htmlspecialchars($product->getName()); ?>')">
                 In den Warenkorb
             </button>
         </div>
