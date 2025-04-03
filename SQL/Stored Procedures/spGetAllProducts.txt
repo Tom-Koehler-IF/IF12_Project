@@ -11,6 +11,7 @@ select * from tblproduct_ingredient;
 select * from tblmenu_product;
 
 select 
+	p.nKey,
 	p.szName,
 	SUM(op.nQuantity) as nQuantity
     from tblcustomer c
@@ -18,7 +19,7 @@ select
     join tblorder_product op on op.nOrderKey=o.nKey
     join tblproduct p on p.nKey = op.nProductKey
     where c.nKey = nCustomerKey
-    GROUP BY p.szName, op.nProductKey 
+    GROUP BY p.nKey, p.szName, op.nProductKey 
     order by nQuantity desc
     ;
 
