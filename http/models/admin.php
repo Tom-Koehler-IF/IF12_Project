@@ -36,7 +36,7 @@ class AdminReport {
     public function getTopCategories() { return $this->topCategories; }
 }
 
-class DailyData {
+class DailyData implements Serializable {
     private $date;
     private $orderCount;
     private $totalRevenue;
@@ -57,6 +57,31 @@ class DailyData {
     public function getTotalRevenue() { return $this->totalRevenue; }
     public function getAvgOrderPrice() { return $this->avgOrderPrice; }
     public function getItemsSold() { return $this->itemsSold; }
+
+    public function serialize() {
+        // Serialize all properties, including parent class properties
+        return serialize([
+            'date' => $this->date,
+            'orderCount' => $this->orderCount,
+            'totalRevenue' => $this->totalRevenue,
+            'avgOrderPrice' => $this->avgOrderPrice,
+            'itemsSold'=> $this->itemsSold
+        ]);
+    }
+
+    public function unserialize($data) {
+        // Unserialize the data
+        $props = unserialize($data);
+
+        // Reconstruct the object using the constructor
+        $this->__construct(
+            $props['date'],
+            $props['orderCount'],
+            $props['totalRevenue'],
+            $props['avgOrderPrice'],
+            $props['itemsSold'],
+        );
+    }
 }
 
 class TableData {

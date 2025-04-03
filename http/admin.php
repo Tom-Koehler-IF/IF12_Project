@@ -1,5 +1,7 @@
 <?php
+session_start();
 
+require_once __DIR__ . '/repository/login.php';
 require_once __DIR__ . '/repository/admin.php';
 
 if (empty($_GET['till']) || empty($_GET['from'])) {
@@ -7,6 +9,13 @@ if (empty($_GET['till']) || empty($_GET['from'])) {
     $fromDay = date('Y-m-d', strtotime('-7 days'));
 
     header('Location: http://localhost/admin.php?from=' . $fromDay . '&till=' . $tillDay);
+    exit;
+}
+
+$user = getCurrentUser();
+if ($user == null || !$user->getIsAdmin()) {
+    http_response_code(response_code: 400);
+    echo 'You are not allowed to view this site';
     exit;
 }
 
@@ -140,142 +149,7 @@ $adminReport = getAdminReport($_GET['from'], $_GET['till']);
                     <div class="card-body">
                         <h5 class="card-title">Verkaufszahlen</h5>
                         <div class="chart-container">
-                            <?php
-                                $width = 800;
-                                $height = 300;
-                                $ordersMax = 55;
-                                $revenueMax = 1150;
-                                $avgOrderMax = 20.91;
-                                $data = [
-                                    ['date' => '2023-05-01', 'orders' => 35, 'revenue' => 720, 'avgOrder' => 20.57],
-                                    ['date' => '2023-05-02', 'orders' => 32, 'revenue' => 680, 'avgOrder' => 21.25],
-                                    ['date' => '2023-05-03', 'orders' => 30, 'revenue' => 610, 'avgOrder' => 20.33],
-                                    ['date' => '2023-05-04', 'orders' => 38, 'revenue' => 790, 'avgOrder' => 20.79],
-                                    ['date' => '2023-05-05', 'orders' => 42, 'revenue' => 850, 'avgOrder' => 20.24],
-                                    ['date' => '2023-05-06', 'orders' => 50, 'revenue' => 1020, 'avgOrder' => 20.40],
-                                    ['date' => '2023-05-07', 'orders' => 55, 'revenue' => 1150, 'avgOrder' => 20.91],
-                                    ['date' => '2023-05-08', 'orders' => 48, 'revenue' => 980, 'avgOrder' => 20.42],
-                                    ['date' => '2023-05-09', 'orders' => 43, 'revenue' => 850, 'avgOrder' => 19.77],
-                                    ['date' => '2023-05-10', 'orders' => 41, 'revenue' => 810, 'avgOrder' => 19.76],
-                                    ['date' => '2023-05-11', 'orders' => 37, 'revenue' => 740, 'avgOrder' => 20.00],
-                                    ['date' => '2023-05-12', 'orders' => 40, 'revenue' => 820, 'avgOrder' => 20.50],
-                                    ['date' => '2023-05-13', 'orders' => 45, 'revenue' => 910, 'avgOrder' => 20.22],
-                                    ['date' => '2023-05-14', 'orders' => 52, 'revenue' => 1060, 'avgOrder' => 20.38],
-                                    ['date' => '2023-05-15', 'orders' => 53, 'revenue' => 1100, 'avgOrder' => 20.75],
-                                    ['date' => '2023-05-16', 'orders' => 48, 'revenue' => 950, 'avgOrder' => 19.79],
-                                    ['date' => '2023-05-17', 'orders' => 43, 'revenue' => 860, 'avgOrder' => 20.00],
-                                    ['date' => '2023-05-18', 'orders' => 40, 'revenue' => 800, 'avgOrder' => 20.00],
-                                    ['date' => '2023-05-19', 'orders' => 43, 'revenue' => 840, 'avgOrder' => 19.53],
-                                    ['date' => '2023-05-20', 'orders' => 45, 'revenue' => 900, 'avgOrder' => 20.00],
-                                    ['date' => '2023-05-21', 'orders' => 47, 'revenue' => 930, 'avgOrder' => 19.79],
-                                    ['date' => '2023-05-22', 'orders' => 42, 'revenue' => 820, 'avgOrder' => 19.52],
-                                    ['date' => '2023-05-23', 'orders' => 38, 'revenue' => 750, 'avgOrder' => 19.74],
-                                    ['date' => '2023-05-24', 'orders' => 36, 'revenue' => 720, 'avgOrder' => 20.00],
-                                    ['date' => '2023-05-25', 'orders' => 38, 'revenue' => 760, 'avgOrder' => 20.00],
-                                    ['date' => '2023-05-26', 'orders' => 40, 'revenue' => 800, 'avgOrder' => 20.00],
-                                    ['date' => '2023-05-27', 'orders' => 45, 'revenue' => 880, 'avgOrder' => 19.56],
-                                    ['date' => '2023-05-28', 'orders' => 50, 'revenue' => 1000, 'avgOrder' => 20.00],
-                                    ['date' => '2023-05-29', 'orders' => 52, 'revenue' => 1050, 'avgOrder' => 20.19],
-                                    ['date' => '2023-05-30', 'orders' => 48, 'revenue' => 960, 'avgOrder' => 20.00],
-                                ];                                
-                                $padding = array('top' => 20, 'right' => 30, 'bottom' => 30, 'left' => 50);
-
-                                $axisColor = '#6c757d';
-                                $xAxisFontSize = '10px';
-                                $xLinePosition = $height - $padding['bottom'];
-                                $xLabelPosition = $height - $padding['bottom'] + 20;
-
-                                $yAxisTicksCount = 6;
-                                $yLabelPosition = $padding['left'] - 20;
-
-                                function xScale($index) {
-                                    global $padding, $width, $data;
-                                    return $padding['left'] + $index * (($width - $padding['left'] - $padding['right']) / (count($data) - 1)); 
-                                };
-
-                                function yScale($max, $value) {
-                                    global $height, $padding;
-                                    return $height - $padding['bottom'] - (($height - $padding['top'] - $padding['bottom']) * ($value / ($max * 1.1)));
-                                }
-
-                                // Baut einen graph als path mit einer klasse. Erwartet attributes, einen max wert und einen value accessor (Um den wert für einen index zu lesen)
-                                function drawGraphLine($class, $max, callable $yAccessor) {
-                                    global $data;
-                                    // Pfad beginnt mit einem M als startpunkt
-                                    $path = 'M ' . xScale(0) . ' ' . yScale($max, $yAccessor(0));
-
-                                    for ($i = 1; $i < count($data); $i++) {
-                                        $path .= ' L ' . xScale($i) . ' ' . yScale($max, $yAccessor($i));
-                                    }
-
-                                    echo '<path d="' . $path . '" class="line ' . $class . '"></path>';
-                                }
-
-                                function createLegendItem($text, $color, $xOffset) {
-                                    echo '<g transform="translate(' . $xOffset . ', 0)">';
-                                        echo '<rect width="12" height="12" fill="' . $color . '"></rect>';
-                                        echo '<text x="16" y="10" fill="#212529" font-size="10-px">' . $text . '</text>';
-                                    echo '</g>';
-                                }
-
-                                // Start outputting html
-                                echo '<svg width="' . $width . '" height="' . $height . '">';
-                                    // X-Achse
-                                    echo '<g class="axis x-axis">';
-                                        // Linie der X-Achse
-                                        echo '<line x1="' . $padding['left'] . '" y1="' . $xLinePosition. '" x2="' . ($width - $padding['right']) . '" y2="' . $xLinePosition . '" stroke="' . $axisColor . '"></line>';
-
-                                        // TODO: Fix how much dates are shown
-                                        for ($i = 0; $i < count($data); $i += 5) {
-                                            // Calcaulte the x position for index
-                                            $x = xScale($i);
-                                            // TODO: This should already be a date
-                                            $date = new DateTime($data[$i]['date']);
-                                            $dateStr = $date->format('F d'); 
-
-                                            // Label Text
-                                            echo '<text x="' . $x . '" y="' . $xLabelPosition . '" text-anchor="middle"' . 'fill="' . $axisColor . '" font-size="' . $xAxisFontSize . '">' . $dateStr . '</text>';
-                                            // Linie über text an der xAchse
-                                            echo '<line x1="' . $x . '" y1="' . $xLinePosition . '" x2="' . $x . '" y2="' . ($xLabelPosition - 15) . '" stroke="' . $axisColor . '"></line>';
-                                        }
-                                    echo '</g>';
-
-                                    // Y-Achse
-                                    echo '<g class="axis y-axis">';
-                                        // Linie der Y-Achse
-                                        echo '<line x1="' . $padding['left'] . '" y1="' . $padding['top'] . '" x2="' . $padding['left'] . '" y2="' . $xLinePosition . '" stroke="' . $axisColor . '"></line>';
-                                    
-                                        // Kleine seitenteile (Werden erstmal immer 5 sein für aufträge)
-                                        for ($i = 0; $i <= $yAxisTicksCount; $i++) {
-                                            // Alle ticks für gleichmäßig verteilte werte anzeigen
-                                            $value = round($ordersMax * ($i / $yAxisTicksCount));
-                                            $y = yScale($ordersMax, $value);
-
-                                            // Label Text ($y + 5 weil text platz einnimmt)
-                                            echo '<text x="' . $yLabelPosition . '" y="' . $y + 5 . '" fill="' . $axisColor . '" font-size="10px">' . $value . '</text>';
-                                            // Linien im Diagramm
-                                            echo '<line x1="' . $padding['left'] . '" y1="' . $y . '" x2="' . ($width - $padding['right']) . '" y2="' . $y . '" stroke="' . $axisColor . '" stroke-opacity="0.1" stroke-dasharray="2,2"></line>';
-                                        }
-                                    echo '</g>';
-
-                                    // Linie für Order
-                                    drawGraphLine('line-orders', $ordersMax, function($i) { global $data; return $data[$i]['orders']; });
-
-                                    // Linie für Umsatz
-                                    drawGraphLine('line-revenue', $revenueMax, function($i) { global $data; return $data[$i]['revenue']; });
-
-                                    // Linie für durchschnittsauftrag
-                                    drawGraphLine('line-avg-order', $avgOrderMax, function($i) { global $data; return $data[$i]['avgOrder']; });
-                                
-                                    // Legende
-                                    echo '<g class="chart-legend" transform="translate(' . ($padding['left'] + 20) . ', ' . ($padding['top']) . ')">';
-                                        createLegendItem('Orders', 'var(--bs-primary)', 0);
-                                        createLegendItem('Umsatz', 'var(--bs-success)', 80);
-                                        createLegendItem('Avg Order', 'var(--bs-info)', 160);
-                                    echo '</g>';
-                                
-                                echo '</svg>';
-                            ?>
+                           
                         </div>
                     </div>
                 </div>
@@ -302,6 +176,12 @@ $adminReport = getAdminReport($_GET['from'], $_GET['till']);
                                 </thead>
                                 <tbody>
                                     <?php foreach($adminReport->getTopProducts() as $product): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($product->getName()); ?></td>
+                                            <td><?php echo number_format($product->getTotalQuantity()); ?></td>
+                                            <td><?php echo number_format($product->getTotalRevenue(), 2); ?>€</td>
+                                            <td><?php echo number_format($product->getTotalPercentage(), 2); ?>%</td>
+                                        </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -328,6 +208,12 @@ $adminReport = getAdminReport($_GET['from'], $_GET['till']);
                                 </thead>
                                 <tbody>
                                     <?php foreach($adminReport->getTopCategories() as $product): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($product->getName()); ?></td>
+                                            <td><?php echo number_format($product->getTotalQuantity()); ?></td>
+                                            <td><?php echo number_format($product->getTotalRevenue(), 2); ?>€</td>
+                                            <td><?php echo number_format($product->getTotalPercentage(), 2); ?>%</td>
+                                        </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -339,4 +225,6 @@ $adminReport = getAdminReport($_GET['from'], $_GET['till']);
     </div>
 
     <script src="bootstrap.min.js"></script>
+    <?php require_once __DIR__ . '/ajax/ajax.js.php'; ?>
+    <script src="admin.js" defer></script>
 </body>

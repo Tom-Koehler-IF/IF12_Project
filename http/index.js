@@ -34,6 +34,10 @@ function redirectToLogin() {
   window.location.href = "Login.php";
 }
 
+function redirectToAdmin() {
+  window.location.href = "admin.php";
+}
+
 function loadCheckout() {
     document.getElementById('main-content').innerHTML = 'TODO';
 

@@ -40,6 +40,9 @@
 .line-avg-order {
     stroke: var(--bs-info);
 }
+.line-items-sold {
+    stroke: var(--bs-warning);
+}
 
 .chart-legend {
     display: flex;

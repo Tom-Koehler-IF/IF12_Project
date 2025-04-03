@@ -91,9 +91,11 @@ $user = getCurrentUser();
         <script src="./index.js"></script>
 
         <!-- Toast-Container für gestapelte Toasts -->
-        <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"/div>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
 
         <!--Admin Dashboard Button-->
-        <button id="AdminDashboard" type="button" class="btn btn-success position-fixed" style="border-radius: 10px; bottom: 10px; left: 10px;">Admin Dashboard</button>
+        <?php if($user !== null && $user->getIsAdmin()): ?>
+            <button onclick="redirectToAdmin()" id="AdminDashboard" type="button" class="btn btn-success position-fixed" style="border-radius: 10px; bottom: 10px; left: 10px;">Admin Dashboard</button>
+        <?php endif; ?>
     </body> 
 </html>

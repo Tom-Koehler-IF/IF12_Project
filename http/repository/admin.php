@@ -44,7 +44,15 @@ function getAdminReport($from, $till) {
     
     $conn->close();
 
+    // Here we also always cache the sales data in the session for later graph retreival
+    $_SESSION['admin']['sales'] = serialize($dailyData);
+
     return new AdminReport($orderCount, $totalRevenue, $avgOrderPrice, $itemsSold, $dailyData, $topProducts, $topCategories);
+}
+
+function getCachedSalesData() {
+    if (isset($_SESSION['admin']['sales'])) return unserialize($_SESSION['admin']['sales']);
+    else null;
 }
 
 function isValidDate($date) {
@@ -52,7 +60,7 @@ function isValidDate($date) {
 }
 
 function readDailyDataFromRow($row) {
-    return new DailyData($row['dtDay'], $row['nOrderCount'], $row['dTotalRevenue'], $row['dAvgOrderPrice'], $row['dTotalItemsSold']);
+    return new DailyData($row['dtDay'], $row['nOrderCount'], $row['dTotalRevenue'], $row['dAvgOrderPrice'], $row['nItemsSold']);
 }
 
 function readTableDataFromRow($row) {
