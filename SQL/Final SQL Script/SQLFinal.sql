@@ -130,9 +130,9 @@ where o.nKey=nOrderKey;
 
 -- Total price
 SELECT 
-       sum(op.dOldPrice* op.nQuantity) * 0.93 as Brutto,
+       sum(op.dOldPrice* op.nQuantity) * 0.93 as Netto,
        sum(op.dOldPrice* op.nQuantity) * 0.07 as MwS,
-       sum(op.dOldPrice* op.nQuantity) as Netto
+       sum(op.dOldPrice* op.nQuantity) as Brutto
        from tblorder o 
 join tblorder_product op on o.nKey=op.nOrderKey
 join tblproduct p on p.nKey=op.nProductKey
@@ -154,13 +154,13 @@ from (
     	r.nKey,              
     	r.szImagePath,
     	l.szAccountName,
-    	YEAR(r.dtCreated) AS Year,
-    	DATE_FORMAT(r.dtCreated, '%Y-%m') AS Month,
+        r.dtCreated,
     	SUM(c.nRating) AS FinalRating,
     	ROW_NUMBER() OVER (PARTITION BY DATE_FORMAT(r.dtCreated, '%Y-%m') ORDER BY FinalRating desc) AS row_num
 	FROM tblcontestratings c
 	JOIN tblcontestimage r ON r.nKey = c.nContestImageKey
 	JOIN tbllogin l ON l.nKey = r.nLoginKey
+    where r.dtCreated < DATE_FORMAT(NOW(), '%Y-%m-01')
     group by r.nKey
 ) as test
 where row_num = 1;
@@ -194,13 +194,15 @@ DELIMITER //
 create PROCEDURE spGetContestImagesToRate(IN UserKey int)
 BEGIN 
 
-select c.nKey as nKey,
-	   c.szImagePath,
+select c.nKey,
+       c.szImagePath,
        l.szAccountName,
-       c.dtCreated
+       c.dtCreated,
+       r.nRating
 from tblcontestimage c 
 join tbllogin l on l.nKey=c.nLoginKey
-where l.nKey = UserKey and c.bCanBeRated <> 0 ;
+left join tblcontestratings r on r.nContestImageKey = c.nKey and r.nLoginKey = UserKey
+where c.bCanBeRated <> 0;
 
 END //
 
@@ -347,29 +349,25 @@ CREATE PROCEDURE spNewCustomer(
    IN szCity CHAR(50),
    IN AccountName CHAR(50),
    IN LoginPassword CHAR(64),
-   OUT Error TINYINT(1)
+   OUT Error TINYINT(1),
+   OUT Customer INT
 )
 BEGIN 
     DECLARE LoginKey INT;
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN 
-        SET Error = 1;
-        ROLLBACK;
-      
-    END;
 
-    START TRANSACTION;
+    if AccountName is not null
+    then
+        -- new user as not Admin
+        CALL spCreateNewUser(AccountName, LoginPassword, 0);    
 
-
-    CALL spCreateNewUser(AccountName, LoginPassword, 0);
-
-    SET LoginKey = (SELECT l.nKey FROM tbllogin l WHERE l.szAccountName = AccountName);
+        SET LoginKey = (SELECT l.nKey FROM tbllogin l WHERE l.szAccountName = AccountName);
+    end if;
 
     INSERT INTO tblcustomer (szFirstName, szLastName, szStreet, szStreetNumber, szPostalCode, szCity, nLoginKey) 
     VALUES (FirstName, LastName, Street, StreetNumber, PostalCode, szCity, LoginKey);
 
-    COMMIT;
-    SET Error = 0; 
+    SET Error = 0; -- Set Error to 0 to indicate success
+    SET Customer = LAST_INSERT_ID();
 END //
 
 DELIMITER ;
@@ -457,10 +455,14 @@ update tblproduct set dPrice = IF(dPrice % 2 = 0, dPrice+0.49,dPrice+0.99);
 
 -- Administrator
 insert into tbllogin (szAccountName, szLoginPassword, bIsAdmin) Values ('Administrator','7b7bc2512ee1fedcd76bdc68926d4f7b',1);
+insert into tblcustomer(nLoginKey,szFirstName,szLastName,szCity,szPostalCode,szStreet,szStreetNumber) VALUES(1,'Administrator','Administrator','New York','54321','Main Street','1');
+
 
 -- New Customer
 SET @Error = 0;
-CALL spNewCustomer('John', 'Doe', 'Main Street', '123', '12345', 'CityName', 'john_doe', '5f4dcc3b5aa765d61d8327deb882cf99', @Error);
+SET @nKeyCustomer = 0;
+CALL spNewCustomer('John', 'Doe', 'Main Street', '123', '12345', 'CityName', 'john_doe', '5f4dcc3b5aa765d61d8327deb882cf99', @Error,@nKeyCustomer);
+
 
 -- Ingredients
 INSERT INTO tblingredient (szName) VALUES ('Beef Patty'), ('Lettuce'), ('Tomato'), ('Onion'), ('Cheese');
@@ -593,20 +595,20 @@ INSERT INTO tblmenu_product (nMenuKey, nProductKey) VALUES (25, 13);-- Ice Cream
 SET @Error = 0;
 
 -- Call the procedure with the details for Alice Smith
-CALL spNewCustomer('Alice', 'Smith', 'Elm Street', '101', '54321', 'Metropolis', 'alice_smith', 'alicepassword', @Error);
+CALL spNewCustomer('Alice', 'Smith', 'Elm Street', '101', '54321', 'Metropolis', 'alice_smith', 'alicepassword', @Error, @nKeyCustomer);
 SELECT @Error;
 
 -- Call the procedure with the details for Bob Johnson
-CALL spNewCustomer('Bob', 'Johnson', 'Oak Avenue', '202', '67890', 'Springfield', 'bob_johnson', 'bobpassword', @Error);
+CALL spNewCustomer('Bob', 'Johnson', 'Oak Avenue', '202', '67890', 'Springfield', 'bob_johnson', 'bobpassword', @Error, @nKeyCustomer);
 SELECT @Error;
 
 -- Call the procedure with the details for Charlie Brown
-CALL spNewCustomer('Charlie', 'Brown', 'Maple Drive', '303', '98765', 'Riverdale', 'charlie_brown', 'charliepassword', @Error);
+CALL spNewCustomer('Charlie', 'Brown', 'Maple Drive', '303', '98765', 'Riverdale', 'charlie_brown', 'charliepassword', @Error, @nKeyCustomer);
 SELECT @Error;
 
 -- Call the procedure with the details for Diana Ross
-CALL spNewCustomer('Diana', 'Ross', 'Pine Lane', '404', '12345', 'Gotham', 'diana_ross', 'dianapassword', @Error);
-SELECT @Error;
+CALL spNewCustomer('Diana', 'Ross', 'Pine Lane', '404', '12345', 'Gotham', 'diana_ross', 'dianapassword', @Error, @nKeyCustomer);
+
 
 -- Orders for Customer 1
 INSERT INTO tblorder (nCustomerKey, dtTime) VALUES (1, '2025-02-20 10:00:00');

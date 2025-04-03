@@ -28,9 +28,9 @@ where o.nKey=nOrderKey;
 
 -- Total price
 SELECT 
-       sum(op.dOldPrice* op.nQuantity) * 0.93 as Brutto,
+       sum(op.dOldPrice* op.nQuantity) * 0.93 as Netto,
        sum(op.dOldPrice* op.nQuantity) * 0.07 as MwS,
-       sum(op.dOldPrice* op.nQuantity) as Netto
+       sum(op.dOldPrice* op.nQuantity) as Brutto
        from tblorder o 
 join tblorder_product op on o.nKey=op.nOrderKey
 join tblproduct p on p.nKey=op.nProductKey
