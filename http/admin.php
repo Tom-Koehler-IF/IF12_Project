@@ -224,6 +224,10 @@ $adminReport = getAdminReport($_GET['from'], $_GET['till']);
         </div>
     </div>
 
+    <div class="mt-4 text-center">
+        <a href="/">Zurück zur Startsetie</a>
+    </div>
+
     <script src="bootstrap.min.js"></script>
     <?php require_once __DIR__ . '/ajax/ajax.js.php'; ?>
     <script src="admin.js" defer></script>
