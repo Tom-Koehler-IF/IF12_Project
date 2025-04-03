@@ -659,3 +659,9 @@ insert into tblcontestratings(nContestImageKey, nLoginKey, nRating) VALUES (2,2,
 
 insert into tblcontestratings(nContestImageKey, nLoginKey, nRating) VALUES (3,3,5);
 insert into tblcontestratings(nContestImageKey, nLoginKey, nRating) VALUES (3,1,1);
+
+-- Rechte eingeben
+
+create user 'project'@'localhost' Identified by 'password';
+GRANT ALL PRIVILEGES on project.* to 'project'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
