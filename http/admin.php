@@ -1,3 +1,18 @@
+<?php
+
+require_once __DIR__ . '/repository/admin.php';
+
+if (empty($_GET['till']) || empty($_GET['from'])) {
+    $tillDay = date('Y-m-d');
+    $fromDay = date('Y-m-d', strtotime('-7 days'));
+
+    header('Location: http://localhost/admin.php?from=' . $fromDay . '&till=' . $tillDay);
+    exit;
+}
+
+$adminReport = getAdminReport($_GET['from'], $_GET['till']);
+?>
+
 <!DOCTYPE html>
 <html lang="de">
 
@@ -38,7 +53,7 @@
                             <div class="col">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Orders
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold" id="total-orders">1,245</div>
+                                <div class="h5 mb-0 font-weight-bold" id="total-orders"><?php echo number_format($adminReport->getOrderCount()); ?></div>
                             </div>
                             <div class="col-auto">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -60,7 +75,7 @@
                             <div class="col">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Revenue
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold" id="total-revenue">$24,568</div>
+                                <div class="h5 mb-0 font-weight-bold" id="total-revenue"><?php echo number_format($adminReport->getTotalRevenue(), 2); ?>€</div>
                             </div>
                             <div class="col-auto">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -81,7 +96,7 @@
                             <div class="col">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Average Order Value
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold" id="avg-order">$19.73</div>
+                                <div class="h5 mb-0 font-weight-bold" id="avg-order"><?php echo number_format($adminReport->getAvgOrderPrice(), 2); ?>€</div>
                             </div>
                             <div class="col-auto">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -102,7 +117,7 @@
                         <div class="row align-items-center">
                             <div class="col">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Items Sold</div>
-                                <div class="h5 mb-0 font-weight-bold" id="items-sold">3,687</div>
+                                <div class="h5 mb-0 font-weight-bold" id="items-sold"><?php echo number_format($adminReport->getItemsSold()); ?></div>
                             </div>
                             <div class="col-auto">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -215,7 +230,8 @@
                                             // Calcaulte the x position for index
                                             $x = xScale($i);
                                             // TODO: This should already be a date
-                                            $dateStr = new DateTime($data[$i]['date'])->format('F d');
+                                            $date = new DateTime($data[$i]['date']);
+                                            $dateStr = $date->format('F d'); 
 
                                             // Label Text
                                             echo '<text x="' . $x . '" y="' . $xLabelPosition . '" text-anchor="middle"' . 'fill="' . $axisColor . '" font-size="' . $xAxisFontSize . '">' . $dateStr . '</text>';
@@ -271,7 +287,7 @@
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <div class="card">
                     <div class="card-header">
-                        <h6 class="m-0 font-weight-bold">Top 5 Products</h6>
+                        <h6 class="m-0 font-weight-bold">Top 5 Produkte</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -285,7 +301,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- TODO: PHP -->
+                                    <?php foreach($adminReport->getTopProducts() as $product): ?>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -296,7 +313,7 @@
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <h6 class="m-0 font-weight-bold">Top 5 Categories</h6>
+                        <h6 class="m-0 font-weight-bold">Top 5 Kategorien</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -310,7 +327,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- TODO: PHP -->
+                                    <?php foreach($adminReport->getTopCategories() as $product): ?>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -318,71 +336,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Bestellzeiten diagramm -->
-         <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h6 class="m-0 font-weight-bold">Häufigste Bestellzeiten</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <?php 
-                            $orderTimes = [
-                                ['hour' => '6-7 AM', 'count' => 34],
-                                ['hour' => '7-8 AM', 'count' => 67],
-                                ['hour' => '8-9 AM', 'count' => 93],
-                                ['hour' => '9-10 AM', 'count' => 78],
-                                ['hour' => '10-11 AM', 'count' => 51],
-                                ['hour' => '11-12 PM', 'count' => 124],
-                                ['hour' => '12-1 PM', 'count' => 189],
-                                ['hour' => '1-2 PM', 'count' => 142],
-                                ['hour' => '2-3 PM', 'count' => 87],
-                                ['hour' => '3-4 PM', 'count' => 65],
-                                ['hour' => '4-5 PM', 'count' => 79],
-                                ['hour' => '5-6 PM', 'count' => 112],
-                                ['hour' => '6-7 PM', 'count' => 157],
-                                ['hour' => '7-8 PM', 'count' => 143],
-                                ['hour' => '8-9 PM', 'count' => 96],
-                                ['hour' => '9-10 PM', 'count' => 69],
-                                ['hour' => '10-11 PM', 'count' => 42],
-                                ['hour' => '11-12 AM', 'count' => 21],
-                            ];     
-                            $maxCount = 189;
-                            $barWidth = ($width - $padding['left'] - $padding['right']) / count($orderTimes) * 0.8;
-                            $barSpacing = ($width - $padding['left'] - $padding['right']) / count($orderTimes) * 0.2;
-                            
-                            function xScaleBar($index) {
-                                global $padding, $barWidth, $barSpacing;
-                                return $padding['left'] + ($index * ($barWidth + $barSpacing)) + ($barSpacing / 2);
-                            }
-
-                            function yScaleBar($value) {
-                                global $padding, $height, $maxCount;
-                                return $height - $padding['bottom'] - (($height - $padding['top'] - $padding['bottom']) * ($value / ($maxCount * 1.1)));
-                            }
-
-                            echo '<svg width="' . $width . '" height="' . $height . '">';
-                                // X-Achse
-                                echo '<g class="axis x-axis">';
-                                    // Linie
-                                    echo '<line x1="' . $padding['left'] . '" y1="' . $xLinePosition. '" x2="' . ($width - $padding['right']) . '" y2="' . $xLinePosition . '" stroke="' . $axisColor . '"></line>';
-                                    // Texte
-                                    for ($i = 0; $i < $orderTimes; $i++) {
-                                        $item = $orderTimes[$i];
-                                        $x = xScaleBar($i) + ($barWidth / 2);
-
-                                        echo '<text x="' . $x . '" y="' . $xLabelPosition . '" text-anchor="middle"' . 'fill="' . $axisColor . '" font-size="8px" transform="rotate(45, ' . $x . ', ' . $xLabelPosition .')">' . $item['hour'] . '</text>';
-                                    }
-                                echo '</g>';
-                            echo '</svg>';
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-         </div>
     </div>
 
     <script src="bootstrap.min.js"></script>
