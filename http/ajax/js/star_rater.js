@@ -7,28 +7,27 @@ function createStarRater(divElement, starCount, initialCount, valueChanged) {
         divElement.insertAdjacentHTML('beforeend', starSvgMarkup);
     }
 
-    var currentRating = initialCount;
-
     divElement.addEventListener('mouseover', event => {
         const selected = getSelectedStars(divElement, starCount, event);
         displayStars(divElement, selected);
     });
 
     divElement.addEventListener('mouseleave', event => {
-        displayStars(divElement, currentRating);
+        displayStars(divElement, divElement.getAttribute('data-value') ?? initialCount);
     });
 
     rating.addEventListener('mousedown', event => {
         const selected = getSelectedStars(divElement, starCount, event);
         displayStars(divElement, selected);
-        currentRating = selected;
+        divElement.setAttribute('data-value', selected, true);
         valueChanged(selected);
     });
 
-    displayStars(divElement, initialCount);
+    displayStars(divElement, initialCount, true);
 }
 
-function displayStars(element, count) {
+function displayStars(element, count, storeValue) {
+    if (storeValue) element.setAttribute('data-value', count);
     const stars = element.querySelectorAll('svg');
     for (let i = 0; i < stars.length; i++) {
         if (i < count) stars[i].classList.add('checked');

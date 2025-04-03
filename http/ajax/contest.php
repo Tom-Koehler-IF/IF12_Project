@@ -77,7 +77,7 @@ else if ($showAdminPage) {
             No pending images
         <?php else: ?>
             <div>
-                <span style="display: block; font-weight: bold; font-size: 25px;">Name: <?php echo $imagesToConfirm[0]->getAccountName(); ?></span>
+                <span style="display: block; font-weight: bold; font-size: 25px; text-align: center;">Name: <?php echo $imagesToConfirm[0]->getAccountName(); ?></span>
             </div>
     
             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px;">
@@ -93,20 +93,23 @@ else if ($showAdminPage) {
         <?php if (count($imagesToRate) == 0):?>
             No images left to rate
         <?php else: ?>
-            <div>
+            <div style="width: 100%; height: 100%; display: flex; flex-direction: column;">
                 <span style="display: block; font-weight: bold; font-size: 25px; text-align: center;" id="raitingName"></span>
-            </div>
 
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px;">
-                <button id="raitingPrev" onclick="previousRating()" class="btn btn-success" style="border-radius: 50%; width: 75px; height:75px; display: flex; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); margin-left: 225px;">
-                    <img style="width: 60px; height: 60px;" src="images/arrow_white2.png" alt="Previous"></img>
-                </button>
-                <img id="ratingImage" style="max-height: 75%; max-width: 75%; height: auto; width: auto; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); display: block; margin: 0 auto;">
-                <button id="ratingNext" onclick="nextRating()" class="btn btn-success" style="border-radius: 50%; width: 75px; height:75px; display: flex; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin-right: 15px;">
-                    <img style="width: 60px; height: 60px;" src="images/arrow_white.png" alt="Next"></img>
-                </button>
+                <div style="display: flex; align-items: center; align-items: space-between; justify-content: center; margin-top: 20px;">
+                    <button id="raitingPrev" onclick="previousRating()" class="btn btn-success" style="border-radius: 50%; width: 75px; height:75px; display: flex; justify-content: center;">
+                        <img style="width: 60px; height: 60px;" src="images/arrow_white2.png" alt="Previous"></img>
+                    </button>
+                    <img id="ratingImage" style="max-height: 75%; max-width: 75%; height: auto; width: auto; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); display: block; margin: 0 auto;">
+                    <button id="ratingNext" onclick="nextRating()" class="btn btn-success" style="border-radius: 50%; width: 75px; height:75px; display: flex; justify-content: center;">
+                        <img style="width: 60px; height: 60px;" src="images/arrow_white.png" alt="Next"></img>
+                    </button>
+                </div>
+
+                <div style="display: flex; width: 100%; justify-content: center;">
+                    <div id="rating"></div>
+                </div>
             </div>
-            <div id="rating"></div>
         <?php endif; ?>
     <?php endif; ?>
 <?php endif; ?>

@@ -53,7 +53,7 @@ $user = getCurrentUser();
                 </button>
         
                 <!--Button 1.3 Account-->
-                <button id="Account_Button" style="width: 45px; height: 45px; border-radius: 50%; border-color: transparent; background-color: transparent;" onclick="redirectToLogin()">
+                <button id="Account_Button" style="height: 45px; border-radius: 50%; border-color: transparent; background-color: transparent;" onclick="redirectToLogin()">
                     <?php if ($user != null) echo $user->getAccountName(); else echo 'Login'; ?>
                 </button>
             </div>

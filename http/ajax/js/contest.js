@@ -47,8 +47,8 @@ function rerenderWinner() {
     document.getElementById('winnerMonth').innerText = new Intl.DateTimeFormat('de-DE', { month: 'long', year: 'numeric' }).format(new Date(winner.createdAt));
     document.getElementById('winnerImage').setAttribute('src', winner.imagePath);
 
-    document.getElementById('winnerPrev').style.display = jstack.winnerIndex > 0 ? 'block' : 'none';
-    document.getElementById('winnerNext').style.display = jstack.winnerIndex < jstack.winners.length - 1 ? 'block' : 'none';
+    document.getElementById('winnerPrev').style.visibility = jstack.winnerIndex > 0 ? 'visible' : 'hidden';
+    document.getElementById('winnerNext').style.visibility = jstack.winnerIndex < jstack.winners.length - 1 ? 'visible' : 'hidden';
 }
 
 function previousWinner() {
@@ -72,9 +72,9 @@ function rerenderRating() {
     document.getElementById('raitingName').innerText = rating.accountName;
     document.getElementById('ratingImage').setAttribute('src', rating.imagePath);
 
-    document.getElementById('raitingPrev').style.display = jstack.ratingIndex > 0 ? 'block' : 'none';
-    document.getElementById('ratingNext').style.display = jstack.ratingIndex < jstack.ratings.length - 1 ? 'block' : 'none';
-    displayStars(document.getElementById('rating'), rating.currentRating);
+    document.getElementById('raitingPrev').style.visibility = jstack.ratingIndex > 0 ? 'visible' : 'hidden';
+    document.getElementById('ratingNext').style.visibility = jstack.ratingIndex < jstack.ratings.length - 1 ? 'visible' : 'hidden';
+    displayStars(document.getElementById('rating'), rating.currentRating, true);
 }
 
 function previousRating() {
@@ -98,7 +98,7 @@ function nextRating() {
 
 (function() {
     const rater = document.querySelector('#rating');
-    if (rater) createStarRater(rater, 5, 3, newRating => updateImageRating(jstack.ratings[jstack.ratingIndex].imageKey, newRating));
+    if (rater) createStarRater(rater, 5, 0, newRating => updateImageRating(jstack.ratings[jstack.ratingIndex].imageKey, newRating));
 
     if (typeof jstack.winners !== 'undefined') rerenderWinner();
     if (typeof jstack.ratings !== 'undefined') rerenderRating();

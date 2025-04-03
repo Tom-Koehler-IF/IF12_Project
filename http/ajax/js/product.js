@@ -18,7 +18,7 @@ function addToCart(productKey, productName) {
 
       newToast.innerHTML = `
           <div class="toast-header">
-              <img src="Images/Toast/Product_Added_IMG" class="rounded me-2" alt="Kreuz mit Plus" style="width: 20px; height:20px;">
+              <img src="images/Toast/Product_Added_IMG.jpg" class="rounded me-2" alt="Kreuz mit Plus" style="width: 20px; height:20px;">
               <strong class="me-auto">${productName}</strong>
               <small>Jetzt</small>
               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
