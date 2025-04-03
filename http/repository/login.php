@@ -7,7 +7,8 @@ function login($username, $password) {
     $conn = createDbConnection();
 
     $stmt = $conn->prepare("call spLoginUser(?, ?)");
-    $stmt->bind_param('ss', $username, md5($password));
+    $password = md5($password);
+    $stmt->bind_param('ss', $username, $password);
     $stmt->execute();
 
     $result = $stmt->get_result();

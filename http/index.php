@@ -86,12 +86,14 @@ $user = getCurrentUser();
         </script>
 
         <!--Main content switch function-->
-        <!--In the event that a tab within the side navigation bar is engaged, the en                    <button class="btn btn-link nav-link" onclick="loadContent('Beliebt')">Beliebt</button>
-tirety of the web page shall remain stationary, eschewing a full-page reload. Instead, only the content area shall undergo a dynamic update, thus preserving the user’s seamless browsing experience.-->
+        <!--In the event that a tab within the side navigation bar is engaged, the entirety of the web page shall remain stationary, eschewing a full-page reload. Instead, only the content area shall undergo a dynamic update, thus preserving the user’s seamless browsing experience.-->
         <?php require_once('./ajax/ajax.js.php') ?>
         <script src="./index.js"></script>
 
         <!-- Toast-Container für gestapelte Toasts -->
         <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"/div>
+
+        <!--Admin Dashboard Button-->
+        <button id="AdminDashboard" type="button" class="btn btn-success position-fixed" style="border-radius: 10px; bottom: 10px; left: 10px;">Admin Dashboard</button>
     </body> 
 </html>

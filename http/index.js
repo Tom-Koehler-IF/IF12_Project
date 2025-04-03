@@ -7,7 +7,7 @@ function switchClasses(activeContent, inactiveContent, doNotReload) {
         contestButton.className = "btn btn-secondary";
 
         if(!doNotReload) {
-            loadProductCategory(INITIAL_PRODUCT_CATEGORY);
+            loadProductCategory(INITIAL_CATEGORY);
         }
     } else if (activeContent === 'Funny_Dinner_Contest' || activeContent === 'Funny_Dinner_Contest_Rating') {
         orderButton.className = "btn btn-secondary";

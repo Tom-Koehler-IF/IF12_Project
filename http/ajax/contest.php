@@ -58,15 +58,15 @@ else if ($showAdminPage) {
 
 <?php if($showWinner): ?>
     <div>
-        <span style="display: block; font-weight: bold; font-size: 25px;" id="winnerName"></span>
-        <span style="display: block; font-weight: bold; font-size: 25px;" id="winnerMonth"></span>
+        <span style="display: block; font-weight: bold; font-size: 30px; text-align: center;" id="winnerName"></span>
+        <span style="display: block; font-weight: bold; font-size: 30px; text-align: center;" id="winnerMonth"></span>
     </div>
 
     <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px;">
         <button id="winnerPrev" onclick="previousWinner()" class="btn btn-success" style="border-radius: 50%; width: 75px; height:75px; display: flex; justify-content: center; align-items: center;">
             <img style="width: 60px; height: 60px;" src="images/arrow_white2.png" alt="Previous"></img>
         </button>
-        <img id="winnerImage" style="max-height: 75%; max-width: 75%; height: auto; width: auto;">
+        <img id="winnerImage" style="max-height: 75%; max-width: 75%; height: auto; width: auto; display: block; margin: 0 auto; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);"></img>
         <button id="winnerNext" onclick="nextWinner()" class="btn btn-success" style="border-radius: 50%; width: 75px; height:75px; display: flex; justify-content: center; align-items: center;">
             <img style="width: 60px; height: 60px;" src="images/arrow_white.png" alt="Next"></img>
         </button>
@@ -94,15 +94,15 @@ else if ($showAdminPage) {
             No images left to rate
         <?php else: ?>
             <div>
-                <span style="display: block; font-weight: bold; font-size: 25px;" id="raitingName"></span>
+                <span style="display: block; font-weight: bold; font-size: 25px; text-align: center;" id="raitingName"></span>
             </div>
 
             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px;">
-                <button id="raitingPrev" onclick="previousRating()" class="btn btn-success" style="border-radius: 50%; width: 75px; height:75px; display: flex; justify-content: center; align-items: center;">
+                <button id="raitingPrev" onclick="previousRating()" class="btn btn-success" style="border-radius: 50%; width: 75px; height:75px; display: flex; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); margin-left: 225px;">
                     <img style="width: 60px; height: 60px;" src="images/arrow_white2.png" alt="Previous"></img>
                 </button>
-                <img id="ratingImage" style="max-height: 75%; max-width: 75%; height: auto; width: auto;">
-                <button id="ratingNext" onclick="nextRating()" class="btn btn-success" style="border-radius: 50%; width: 75px; height:75px; display: flex; justify-content: center; align-items: center;">
+                <img id="ratingImage" style="max-height: 75%; max-width: 75%; height: auto; width: auto; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); display: block; margin: 0 auto;">
+                <button id="ratingNext" onclick="nextRating()" class="btn btn-success" style="border-radius: 50%; width: 75px; height:75px; display: flex; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin-right: 15px;">
                     <img style="width: 60px; height: 60px;" src="images/arrow_white.png" alt="Next"></img>
                 </button>
             </div>
@@ -111,7 +111,7 @@ else if ($showAdminPage) {
     <?php endif; ?>
 <?php endif; ?>
 
-<div style="position: fixed; bottom: 0; right: 0; display: flex; gap: 8px; align-items: center; flex-direction: column; margin-bottom: 15px;">
+<div style="position: fixed; bottom: 0; right: 0; display: flex; gap: 8px; align-items: center; flex-direction: row; margin-bottom: 15px;">
     <?php if(!$showAdminPage && $user !== null && !$showWinner): ?>
         <input class="form-control" type="file" id="formFile" style="margin-right: 15px;" onchange="submitImage(event)"/>
     <?php endif; ?>
