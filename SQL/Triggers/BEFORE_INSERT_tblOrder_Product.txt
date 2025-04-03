@@ -1,0 +1,14 @@
+DELIMITER //
+
+CREATE TRIGGER before_insert_tblorder_product
+BEFORE INSERT ON tblorder_product
+FOR EACH ROW
+BEGIN
+    DECLARE productPrice DECIMAL(5,2);
+
+    SELECT dPrice INTO productPrice FROM tblproduct WHERE nKey = NEW.nProductKey;
+
+    SET NEW.dOldPrice = productPrice;
+END //
+
+DELIMITER ;

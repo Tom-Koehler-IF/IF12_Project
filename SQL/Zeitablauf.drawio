@@ -1,0 +1,207 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 Edg/134.0.0.0" version="26.1.3">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="2749" dy="2092" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-3" value="Arbeitspakete anliegen, Tom K,#14" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="-740" y="20" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-7" target="WIyWlLk6GJQsqaUBKTNV-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-11" target="aA5JA_FU6FK1qxTX7bXb-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-11" value="Mock Ups Webseiten #11" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="-370" y="100" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-180" y="40" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-12" value="Use Case Diagram #10" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="-370" y="20" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-2" value="" style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="WIyWlLk6GJQsqaUBKTNV-7">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-620" y="40" as="sourcePoint" />
+            <mxPoint x="260" y="50" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-7" target="aA5JA_FU6FK1qxTX7bXb-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-7" target="WIyWlLk6GJQsqaUBKTNV-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-7" value="Kosten Plan,Tom K #13" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="-560" y="20" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-5" target="aA5JA_FU6FK1qxTX7bXb-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-5" value="Logisches Model der Datenbank #12 Iliya" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-370" y="190" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-10" target="aA5JA_FU6FK1qxTX7bXb-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-10" target="aA5JA_FU6FK1qxTX7bXb-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-10" target="aA5JA_FU6FK1qxTX7bXb-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-10" target="aA5JA_FU6FK1qxTX7bXb-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-10" target="aA5JA_FU6FK1qxTX7bXb-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-10" value="Projektstruktur&amp;nbsp; Kohler. #15" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-180" y="20" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-13" target="aA5JA_FU6FK1qxTX7bXb-73">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-13" target="aA5JA_FU6FK1qxTX7bXb-75">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-13" value="MVP -Datenbankschema(ERM) Iliya #2 Milestone 3&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-20" y="-270" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-14" target="aA5JA_FU6FK1qxTX7bXb-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-14" target="aA5JA_FU6FK1qxTX7bXb-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-14" target="aA5JA_FU6FK1qxTX7bXb-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-63" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-14" target="aA5JA_FU6FK1qxTX7bXb-61">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-14" value="MVP - Frontend Basis #16 Rudolf Milestone 3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="40" y="20" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-15" target="aA5JA_FU6FK1qxTX7bXb-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-15" value="MVP - Logic Login/Register #20 Kohler Mile Stone 3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="80" y="280" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-16" target="aA5JA_FU6FK1qxTX7bXb-28">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-16" value="MVP - Logik Contest #21 Kohler Mile Stone 3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="80" y="370" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-17" target="aA5JA_FU6FK1qxTX7bXb-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-17" value="MVP - Logik Homepage/Checkout #22 Kohler Kohler Milestone 3&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="80" y="460" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-24" target="aA5JA_FU6FK1qxTX7bXb-58">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-24" value="MVP -Finalisierung Datenbank Iliya #24 Final Milestone&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="490" y="-230" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-28" target="aA5JA_FU6FK1qxTX7bXb-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-28" value="Finalisierung Frontend + Logik #23 Rudolf" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="500" y="280" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-33" target="aA5JA_FU6FK1qxTX7bXb-55">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-33" value="Marketingausarbeitung Rudolf #25&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="827" y="40" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-39" target="aA5JA_FU6FK1qxTX7bXb-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-39" value="MVP - Frontend Dinner-Contest #18 Rudolf, Mile stone 3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="240" y="-10" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-43" target="aA5JA_FU6FK1qxTX7bXb-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-43" value="MVP - Frontend&amp;nbsp; Login/Register #17 Rudolf Milestone 3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="240" y="80" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-48" target="aA5JA_FU6FK1qxTX7bXb-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-48" value="MVP - Frontend&amp;nbsp; Homepage/Checkout #19 Rudolf Milestone 3" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="240" y="170" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-55">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1270" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-55" value="Abschlussdokumentation Rudolf #25 Final Milestone&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1050" y="40" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-58" target="aA5JA_FU6FK1qxTX7bXb-60">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-58" value="(Abschlussdokumentation) Zeitplan und AP Diagram Iliya #25 Final Milestone&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1050" y="-40" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-60" value="ENDE" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1270" y="40" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-61" target="aA5JA_FU6FK1qxTX7bXb-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-61" value="Testautomatisierung mit RF Rudolf #26&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="240" y="-80" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-94" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-68" target="aA5JA_FU6FK1qxTX7bXb-58">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-68" value="Datenbank Test&amp;nbsp; Iliya #32 Final Milestone&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="490" y="-160" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-81" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-73" target="aA5JA_FU6FK1qxTX7bXb-74">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-73" value="&amp;nbsp;Logik in der DB(Tabellen und Test Proceduren) Iliya #31 Milestone 3&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="140" y="-310" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-89" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-74" target="aA5JA_FU6FK1qxTX7bXb-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-74" value="Contest Images Proceduren Iliya #33 Milestone 3&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="310" y="-310" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-75" target="aA5JA_FU6FK1qxTX7bXb-84">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-88" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-75" target="aA5JA_FU6FK1qxTX7bXb-68">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-75" value="DB Testdaten #30 Iliya milestone 3&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="140" y="-230" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aA5JA_FU6FK1qxTX7bXb-84">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="-210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aA5JA_FU6FK1qxTX7bXb-84" value="Order/Customer/Menu Proceduren Iliya #34 Milestone 3&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="310" y="-230" width="120" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
