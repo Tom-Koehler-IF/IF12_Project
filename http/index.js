@@ -1,16 +1,33 @@
-function switchClasses(activeContent, inactiveContent) {
-  let orderButton = document.getElementById("orderButton");
-  let contestButton = document.getElementById("contestButton");
+function switchClasses(activeContent, inactiveContent, doNotReload) {
+    let orderButton = document.getElementById("orderButton");
+    let contestButton = document.getElementById("contestButton");
 
-  if (activeContent === 'order') {
-      orderButton.className = "btn btn-success";
-      contestButton.className = "btn btn-secondary";
-      loadProductCategory(INITIAL_CATEGORY);
-  } else if (activeContent === 'Funny_Dinner_Contest' || activeContent === 'Funny_Dinner_Contest_Rating') {
-      orderButton.className = "btn btn-secondary";
-      contestButton.className = "btn btn-success";
-      loadDinnerContest(false);
-  }
+    if (activeContent === 'order') {
+        orderButton.className = "btn btn-success";
+        contestButton.className = "btn btn-secondary";
+
+        if(!doNotReload) {
+            loadProductCategory(INITIAL_PRODUCT_CATEGORY);
+        }
+    } else if (activeContent === 'Funny_Dinner_Contest' || activeContent === 'Funny_Dinner_Contest_Rating') {
+        orderButton.className = "btn btn-secondary";
+        contestButton.className = "btn btn-success";
+
+        // Reset the color of all buttons to default
+        const buttons = document.querySelectorAll('.category-button');
+        buttons.forEach(btn => btn.style.setProperty('color', '#000', 'important'));
+
+        loadDinnerContest(false);
+    }
+}
+
+function highlightCategory(button) {
+  // Reset all buttons to default color
+  const buttons = document.querySelectorAll('.category-button');
+  buttons.forEach(btn => btn.style.setProperty('color', '#000', 'important'));
+
+  // Set the clicked button color to #28a745
+  button.style.setProperty('color', '#28a745', 'important');
 }
 
 function redirectToLogin() {

@@ -62,24 +62,22 @@ $user = getCurrentUser();
         <!--Side bar-->
         <div class="d-flex">
             <div class="bg-light border" style="width: 200px; height: 100vh;">
-            <ul class="nav flex-column">
-                <!-- TODO: Has to be loaded dynamic --> 
-                <!-- TODO: loadContent should be changed a little bit. It should be split into two functions I think one for loading something like funny dinner contest one for loading the left sidebar thingies --> 
-                <!--Beliebt Content-->
-                <li class="nav-item">
+            <ul class="nav flex-column p-3" style="font-size: 16px;">
+                <li class="nav-item mb-3">
+                    <h5 class="text-center" style="color: #28a745;">Kategorien</h5>
                 </li>
-
                 <?php foreach($productCategories as $productCategory): ?>
-                    <li class="nav-item">
-                        <button class="btn btn-link nav-link" onclick="loadProductCategory(<?php echo $productCategory->getKey();?>)"><?php echo htmlspecialchars($productCategory->getName()); ?></button>
-                    </li>
+                <li onclick="switchClasses('order', 'Funny_Dinner_Contest', true)" class="nav-item mb-2">
+                    <button class="btn btn-link nav-link text-start text-dark category-button" style="font-weight: 500; text-decoration: none;" onclick="highlightCategory(this); loadProductCategory(<?php echo $productCategory->getKey();?>)">
+                        <?php echo htmlspecialchars($productCategory->getName()); ?>
+                    </button>
+                </li>
                 <?php endforeach; ?>
             </ul>
-            </div>
-            <div class="flex-grow-1 p-3" id="main-content">
+        </div>
+        <div id="main-content" style="flex-grow: 1; padding: 20px;">
             <!--Main content which will be displayed if nothing is selected-->
-            <h1>Main content which will be displayed if nothing is selected</h1>
-            </div>
+            <h1 class="text-center text-secondary">Willkommen! Wählen Sie eine Kategorie aus.</h1>
         </div>
 
         <!-- Here we can dump some constant values to js so js can use them, but we still want to seperate js and php -->
@@ -92,5 +90,8 @@ $user = getCurrentUser();
 tirety of the web page shall remain stationary, eschewing a full-page reload. Instead, only the content area shall undergo a dynamic update, thus preserving the user’s seamless browsing experience.-->
         <?php require_once('./ajax/ajax.js.php') ?>
         <script src="./index.js"></script>
+
+        <!-- Toast-Container für gestapelte Toasts -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"/div>
     </body> 
 </html>
