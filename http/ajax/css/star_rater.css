@@ -1,0 +1,10 @@
+.star-rating {
+    width: fit-content;
+    cursor: pointer;
+}
+.star-rating svg {
+    fill: none;    
+}
+.star-rating .checked path {
+    fill: #ED8A19;
+}
