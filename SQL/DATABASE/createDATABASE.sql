@@ -32,7 +32,7 @@ CREATE TABLE tblcontestratings (
 
 CREATE TABLE tblcustomer (
    nKey int AUTO_INCREMENT PRIMARY KEY,
-   nLoginKey int NOT NULL,
+   nLoginKey int NULL,
    szFirstName CHAR (50),
    szLastName CHAR (50),
    szStreet CHAR (50), 
@@ -51,7 +51,7 @@ CREATE TABLE tblorder (
 
 
 CREATE TABLE tblproduct_category (
-   nKey int PRIMARY KEY,
+   nKey int AUTO_INCREMENT PRIMARY KEY,
    szName CHAR(50),
    szImage CHAR(200)
 );

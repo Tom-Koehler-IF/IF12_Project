@@ -50,7 +50,7 @@ CREATE TABLE tblorder (
 
 
 CREATE TABLE tblproduct_category (
-   nKey int PRIMARY KEY,
+   nKey int AUTO_INCREMENT PRIMARY KEY,
    szName CHAR(50),
    szImage CHAR(200)
 );
