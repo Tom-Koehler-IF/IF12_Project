@@ -176,7 +176,7 @@ WHERE
         FROM tblwinners w2
         WHERE YEAR(w2.dtCreated) = year(w.dtCreated)
           AND MONTH(w2.dtCreated) = month(w.dtCreated)
-    )
+    ) and dtCreated < DATE_FORMAT(NOW(), '%Y-%m-01')
 ORDER BY 
     dtCreated;
 END //
