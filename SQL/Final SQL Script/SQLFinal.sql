@@ -320,6 +320,7 @@ select * from tblproduct_ingredient;
 select * from tblmenu_product;
 
 select 
+    p.nKey,
 	p.szName,
 	SUM(op.nQuantity) as nQuantity
     from tblcustomer c
@@ -327,7 +328,7 @@ select
     join tblorder_product op on op.nOrderKey=o.nKey
     join tblproduct p on p.nKey = op.nProductKey
     where c.nKey = nCustomerKey
-    GROUP BY p.szName, op.nProductKey 
+    GROUP BY p.nKey, p.szName, op.nProductKey 
     order by nQuantity desc
     ;
 
@@ -430,17 +431,17 @@ INSERT INTO tblproduct (szName, nCalories, dPrice, bIsMenu, szDescription, szIma
 ('Beef & Cheese Wrap', 350, 5.00, 0, 'Seasoned beef and melted cheese wrapped up in a warm tortilla.', 'images/Products/Beef & Cheese Wrap.jpg', 3),
 ('Veggie Wrap', 280, 4.00, 0, 'A healthy mix of fresh veggies and hummus in a soft wrap.', 'images/Products/Veggie Wrap.jpg', 3),
  
-('Soft Drink', 150, 1.50, 0, 'Refreshing soft drink to quench your thirst.', 'images/Products/Soft Drinks.jpg', 4),
+('Soft Drink', 150, 1.50, 0, 'Refreshing soft drink to quench your thirst.', 'images/Products/Soft Drinks.png', 4),
 ('Milkshake', 500, 3.50, 0, 'Creamy milkshake in your choice of flavors.', 'images/Products/Milkshake.jpg', 4),
 ('Fresh Juice', 120, 2.50, 0, 'Freshly squeezed juice packed with vitamins.', 'images/Products/Fresh Juice.jpg', 4),
  
 ('Ice Cream Sundae', 350, 4.00, 0, 'A delightful sundae with your choice of toppings.', 'images/Products/Ice Cream Sundae.jpg', 5),
-('Brownie', 400, 2.00, 0, 'Rich, chocolatey brownie with a chewy center.', 'images/Products/Brownie.jpg', 5),
+('Brownie', 400, 2.00, 0, 'Rich, chocolatey brownie with a chewy center.', 'images/Products/Brownies.jpg', 5),
 ('Apple Pie', 300, 3.00, 0, 'Classic apple pie with a flaky crust and sweet filling.', 'images/Products/Apple Pies.jpg', 5);
  
 -- Menus
 INSERT INTO tblproduct (szName, nCalories, dPrice, bIsMenu, szDescription, szImagePfad, nProduct_CategoryKey) VALUES
-('Classic Burger Combo', 950, 10.00, 1, 'Cheeseburger with French fries, a soft drink, and a brownie.', 'images/Menu/Classic Burger Combo.jpg', 6),
+('Classic Burger Combo', 950, 10.00, 1, 'Cheeseburger with French fries, a soft drink, and a brownie.', 'images/Fastfood_icon.png', 6),
 ('Chicken Delight', 1200, 12.00, 1, 'Chicken Sandwich with onion rings, a milkshake, and an ice cream sundae.', 'images/Menu/Chicken Delight.jpg', 6),
 ('Veggie Feast', 950, 11.00, 1, 'Veggie Burger with mozzarella sticks, fresh juice, and an apple pie.', 'images/Menu/Veggie Feast.jpg', 6),
 ('Grilled Chicken Wrap Combo', 870, 9.00, 1, 'Grilled Chicken Wrap with French fries, a soft drink, and a brownie.', 'images/Menu/Grilled Chicken Wrap.jpg', 6),
@@ -449,7 +450,7 @@ INSERT INTO tblproduct (szName, nCalories, dPrice, bIsMenu, szDescription, szIma
 ('Double Trouble', 1200, 11.00, 1, 'Double Cheeseburger with French fries, a soft drink, and a brownie.', 'images/Menu/Double Trouble.jpg', 6),
 ('Crispy Chicken Sandwich Combo', 1250, 12.50, 1, 'Crispy Chicken Sandwich with onion rings, a milkshake, and an ice cream sundae.', 'images/Menu/Crispy Chicken Sandwich.jpg', 6),
 ('BBQ Bacon Burger Combo', 1000, 11.50, 1, 'BBQ Bacon Burger with mozzarella sticks, fresh juice, and an apple pie.', 'images/Menu/BBQ Bacon Burger.jpg', 6),
-('Ultimate Wrap Combo', 1200, 13.00, 1, 'Grilled Chicken Wrap and Beef & Cheese Wrap with French fries, a soft drink, and an ice cream sundae.', 'images/Menu/Ultimae Wrap Combo.jpg', 6);
+('Ultimate Wrap Combo', 1200, 13.00, 1, 'Grilled Chicken Wrap and Beef & Cheese Wrap with French fries, a soft drink, and an ice cream sundae.', 'images/Menu/Ultimate Wrap Combo.jpg', 6);
 
 update tblproduct set dPrice = IF(dPrice % 2 = 0, dPrice+0.49,dPrice+0.99);
 
